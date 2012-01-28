@@ -19,13 +19,13 @@
 
 @property(retain, nonatomic) NSMutableArray* snakeBody;
 @property(retain, nonatomic) CCSprite *snakeHead;
+@property(retain, nonatomic) NSMutableArray* touchArray;
 
 - (void)addSnakeBody;
 
 - (void)addSnakeHead:(CGSize)windowsSize;
 
 - (float)findDistanceBetween:(CGPoint)point1 andPoint:(CGPoint)point2;
-
 
 @end
 
@@ -36,9 +36,9 @@ CGPoint _previousSnakeHeadPosition;
 CGPoint _snakeHeading;
 const short pixelBetweenNodes = 2;
 
-
 @synthesize snakeHead = _snakeHead;
 @synthesize snakeBody = _snakeBody;
+@synthesize touchArray = _touchArray;
 
 + (CCScene *)scene {
     _snakeSpeed = 200 / 1; //X pixel/seconds
@@ -57,7 +57,7 @@ const short pixelBetweenNodes = 2;
 }
 
 
-- (void)addTarget {
+- (void)addPlanet {
 
 //    CCSprite *target = [CCSprite spriteWithFile:@"Target.png"
 //                                           rect:CGRectMake(0, 0, 27, 40)];
@@ -93,7 +93,7 @@ const short pixelBetweenNodes = 2;
 }
 
 - (void)gameLogic:(ccTime)dt {
-    [self addTarget];
+    [self addPlanet];
 }
 
 // on "init" you need to initialize your instance
@@ -109,6 +109,8 @@ const short pixelBetweenNodes = 2;
         [self addSnakeBody];
         [self addSnakeBody];
 
+        self.touchArray =[[NSMutableArray alloc ] init];
+
         [self schedule:@selector(gameLogic:) interval:1.0];
         [self schedule:@selector(update:)];
 
@@ -120,6 +122,33 @@ const short pixelBetweenNodes = 2;
     return self;
 }
 
+-(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event  {
+    UITouch *touch = [ touches anyObject];
+    CGPoint new_location = [touch locationInView: [touch view]];
+    new_location = [[CCDirector sharedDirector] convertToGL:new_location];
+
+    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
+    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
+    oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
+
+    [self.touchArray addObject:NSStringFromCGPoint(new_location)];
+    [self.touchArray addObject:NSStringFromCGPoint(oldTouchLocation)];
+}
+
+-(void)draw
+{
+    [super draw];
+    glEnable(GL_LINE_SMOOTH);
+
+    for(int i = 0; i < [_touchArray count]; i+=2)
+    {
+        CGPoint start = CGPointFromString([_touchArray objectAtIndex:i]);
+        CGPoint end = CGPointFromString([_touchArray objectAtIndex:i+1]);
+
+        ccDrawLine(start, end);
+    }
+}
+
 // on "dealloc" you need to release all your retained objects
 - (void)dealloc {
     // in case you have something to dealloc, do it in this method
@@ -128,14 +157,18 @@ const short pixelBetweenNodes = 2;
 
     [_snakeHead release], _snakeHead = nil;
     [_snakeBody release], _snakeBody = nil;
-
+    [_touchArray release], _touchArray= nil;
     [super dealloc];
 }
 
 #pragma mark - CCStandardTouchDelegate Members
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    BoardLayer *line = [BoardLayer node];
+    [self addChild: line];
+}
 
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:[touch view]];
@@ -143,8 +176,8 @@ const short pixelBetweenNodes = 2;
 
 
     _snakeHeading = touchLocation;
-    float distance = [self findDistanceBetween:_snakeHead.position andPoint:touchLocation];
-    float duration = distance / _snakeSpeed;
+//    float distance = [self findDistanceBetween:_snakeHead.position andPoint:touchLocation];
+//    float duration = distance / _snakeSpeed;
 //    [_snakeHead runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:touchLocation],
 //                  [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadMoveFinished:)],
 //                  nil]];
@@ -155,39 +188,7 @@ const short pixelBetweenNodes = 2;
     float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
     _snakeHead.rotation = angle;
 
-
-
-//    // What is the initial touchLocation of the snake?
-//    CGSize winSize = [[CCDirector sharedDirector] winSize];
-//
-//    // Determine offset of touchLocation to projectile
-//    int offX = touchLocation.x - _snakeHead.position.x;
-//    int offY = touchLocation.y - _snakeHead.position.y;
-//
-//    // Bail out if we are shooting down or backwards
-//
-//    // Determine where we wish to shoot the projectile to
-//    int realX = winSize.width + (_snakeHead.contentSize.width / 2);
-//    float ratio = (float) offY / (float) offX;
-//    int realY = (realX * ratio) + _snakeHead.position.y;
-//    CGPoint realDest = ccp(realX, realY);
-//
-//    // Determine the length of how far we're shooting
-//    int offRealX = realX - _snakeHead.position.x;
-//    int offRealY = realY - _snakeHead.position.y;
-//    float length = sqrtf((offRealX * offRealX) + (offRealY * offRealY));
-//    float realMoveDuration = 50;//length / _speed;
-//
-//    // Move projectile to actual endpoint
-//    [_snakeHead runAction:[CCSequence actions:[CCMoveTo actionWithDuration:realMoveDuration position:realDest],
-//              [CCCallFuncN actionWithTarget:self selector:@selector(spriteMoveFinished:)],
-//              nil]];
-
-    // Make some sound
-    //[[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
-
 }
-
 
 #pragma mark - Private Methods
 
@@ -249,26 +250,6 @@ const short pixelBetweenNodes = 2;
                                    nil]];
         prevPoint = bodyNode.position;
     }
-    
-//    if (_previousSnakeHeadPosition.x == _snakeHead.position.x &&
-//            _previousSnakeHeadPosition.y == _snakeHead.position.y)
-//        return;
-//
-//    
-//    _previousSnakeHeadPosition = _snakeHead.position;
-//    CGPoint previousPosition;
-//    for (int i = 0; i < [_snakeBody count]; i++) {
-//        if (i == 0)
-//        {
-//            previousPosition = ((CCSprite *)[_snakeBody objectAtIndex:i]).position;
-//            ((CCSprite *)[_snakeBody objectAtIndex:i]).position = _snakeHead.position;
-//            continue;
-//        }
-//
-//        CGPoint tmpPoint =  ((CCSprite *)[_snakeBody objectAtIndex:i]).position;
-//        ((CCSprite *)[_snakeBody objectAtIndex:i]).position = previousPosition;
-//        previousPosition =  tmpPoint;
-//    }
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "GameConfig.h"
 #import "BoardLayer.h"
+#import "MenuScene.h"
 #import "RootViewController.h"
 
 @implementation AppDelegate
@@ -111,7 +112,7 @@
 	[self removeStartupFlicker];
 	
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [BoardLayer scene]];
+	[[CCDirector sharedDirector] runWithScene: [MenuScene scene]];
 }
 
 
