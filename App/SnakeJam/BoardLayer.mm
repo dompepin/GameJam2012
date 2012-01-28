@@ -78,13 +78,14 @@ const short kTagForPlanetSprite = 1;
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         
         [self addBackground];
-        [self addSnakeHead:winSize];
 
         self.snakeBody = [[NSMutableArray alloc] init];
         [self addSnakeBody];
         [self addSnakeBody];
         [self addSnakeBody];
         [self addSnakeBody];
+
+        [self addSnakeHead:winSize];
 
         self.touchArray =[[NSMutableArray alloc ] init];
         self.deleteArray =[[NSMutableArray alloc ] init];
