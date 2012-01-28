@@ -105,7 +105,7 @@ const short kTagForPlanetSprite = 1;
 }
 
 + (CCScene *)scene {
-    _snakeSpeed = 800 / 1; //X pixel/seconds
+    _snakeSpeed = 200 / 1; //X pixel/seconds
 
     // 'scene' is an autorelease object.
     CCScene *scene = [CCScene node];
@@ -279,6 +279,9 @@ const short kTagForPlanetSprite = 1;
     }
 }
 
+
+
+
 // Occurs when the snake body finished moving
 - (void)planetMoveFinished:(id)sender {
     CCSprite *sprite = (CCSprite *)sender;
@@ -295,6 +298,10 @@ const short kTagForPlanetSprite = 1;
 - (void)snakeHeadMoveFinished:(id)sender {
 
 
+}
+
+-(void)snakeHeadBlinkFinished:(id)sender {
+    _snakeHead.visible = true;
 }
 
 
@@ -341,6 +348,19 @@ const short kTagForPlanetSprite = 1;
                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeBodyMoveFinished:)],
                                    nil]];
         nextPoint = bodyNode.position;
+    }
+    
+    for (CCSprite *planet in _planetArray) {        
+        if (!planet.visible) continue;
+        
+        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {  
+            [_snakeHead runAction:[CCSequence actions:
+                                   [CCBlink actionWithDuration:1.0 blinks:20],
+                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
+             nil]];  
+            planet.visible = NO;
+            [self addSnakeBody];             
+        }
     }
 }
 
