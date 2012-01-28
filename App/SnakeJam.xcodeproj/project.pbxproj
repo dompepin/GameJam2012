@@ -162,6 +162,7 @@
 		B69C795B14D3C416002C9735 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C795A14D3C416002C9735 /* blocks.png */; };
 		B69C797514D3CE77002C9735 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C797414D3CE77002C9735 /* GameOverScene.m */; };
 		B6FC4BF214D4736100BF83F3 /* Head2_129x82.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FC4BF114D4736100BF83F3 /* Head2_129x82.png */; };
+		FE9570E014D493CA00FF1030 /* WaterPlanet_84x85.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570DF14D493CA00FF1030 /* WaterPlanet_84x85.png */; };
 		FEA8836514D3F21A00EB9215 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA8836414D3F21A00EB9215 /* MenuScene.m */; };
 		FEA8836A14D3F96000EB9215 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEA8836914D3F96000EB9215 /* play.png */; };
 		FEAEA70D14D43808005B5397 /* Body blocks_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70814D43807005B5397 /* Body blocks_61x53.png */; };
@@ -488,6 +489,7 @@
 		B69C797314D3CE77002C9735 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		B69C797414D3CE77002C9735 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		B6FC4BF114D4736100BF83F3 /* Head2_129x82.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Head2_129x82.png; sourceTree = "<group>"; };
+		FE9570DF14D493CA00FF1030 /* WaterPlanet_84x85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaterPlanet_84x85.png; path = Resources/WaterPlanet_84x85.png; sourceTree = "<group>"; };
 		FEA8836314D3F21A00EB9215 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FEA8836414D3F21A00EB9215 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
 		FEA8836914D3F96000EB9215 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Resources/play.png; sourceTree = "<group>"; };
@@ -572,6 +574,7 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FE9570DF14D493CA00FF1030 /* WaterPlanet_84x85.png */,
 				B6FC4BF114D4736100BF83F3 /* Head2_129x82.png */,
 				FEAEA71714D44456005B5397 /* Star_bg1_1024x768.png */,
 				FEAEA70814D43807005B5397 /* Body blocks_61x53.png */,
@@ -1114,6 +1117,7 @@
 				FEAEA71014D43808005B5397 /* RockyPlanet_84x85.png in Resources */,
 				FEAEA71814D44457005B5397 /* Star_bg1_1024x768.png in Resources */,
 				B6FC4BF214D4736100BF83F3 /* Head2_129x82.png in Resources */,
+				FE9570E014D493CA00FF1030 /* WaterPlanet_84x85.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

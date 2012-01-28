@@ -84,6 +84,8 @@ const short kTagForPlanetSprite = 1;
 
         [self addBackground];
 
+        [self createSnakeHead:winSize];
+        
 //        self.snakeBody = [[NSMutableArray alloc] init];
 //        [self addSnakeBody];
 //        [self addSnakeBody];
@@ -299,11 +301,10 @@ const short kTagForPlanetSprite = 1;
 }
 
 //
-- (void)addSnakeHead:(CGSize)windowsSize {
+- (void)createSnakeHead:(CGSize)windowsSize  {
     self.snakeHead = [CCSprite spriteWithFile:@"Head2_129x82.png" rect:CGRectMake(0, 0, 129, 82)];
     _snakeHead.position = ccp(_snakeHead.contentSize.width / 2, windowsSize.height / 2);
     _previousSnakeHeadPosition = _snakeHead.position;
-    [self addChild:_snakeHead];
 }
 
 - (float)findDistanceBetween:(CGPoint)point1 andPoint:(CGPoint)point2 {
@@ -317,10 +318,10 @@ const short kTagForPlanetSprite = 1;
             return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
             break;
         case 1:
-            return [CCSprite spriteWithFile:@"RockyPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
+            return [CCSprite spriteWithFile:@"WaterPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
             break;
         case 2:
-            return [CCSprite spriteWithFile:@"WaterPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
+            return [CCSprite spriteWithFile:@"RockyPlanet_84x85.png" rect:CGRectMake(0, 0, 85, 85)];
             break;
         default:
             return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
