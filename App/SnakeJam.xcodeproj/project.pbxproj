@@ -168,7 +168,6 @@
 		FEAEA70E14D43808005B5397 /* GasPlanet_82x84.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70914D43807005B5397 /* GasPlanet_82x84.png */; };
 		FEAEA70F14D43808005B5397 /* Head2_129x82edit1.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70A14D43807005B5397 /* Head2_129x82edit1.png */; };
 		FEAEA71014D43808005B5397 /* RockyPlanet_84x85.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70B14D43807005B5397 /* RockyPlanet_84x85.png */; };
-		FEAEA71114D43808005B5397 /* WaterPlanet_84x85.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70C14D43808005B5397 /* WaterPlanet_84x85.png */; };
 		FEAEA71814D44457005B5397 /* Star_bg1_1024x768.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA71714D44456005B5397 /* Star_bg1_1024x768.png */; };
 /* End PBXBuildFile section */
 
@@ -496,7 +495,6 @@
 		FEAEA70914D43807005B5397 /* GasPlanet_82x84.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GasPlanet_82x84.png; path = Resources/GasPlanet_82x84.png; sourceTree = "<group>"; };
 		FEAEA70A14D43807005B5397 /* Head2_129x82edit1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Head2_129x82edit1.png; path = Resources/Head2_129x82edit1.png; sourceTree = "<group>"; };
 		FEAEA70B14D43807005B5397 /* RockyPlanet_84x85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RockyPlanet_84x85.png; path = Resources/RockyPlanet_84x85.png; sourceTree = "<group>"; };
-		FEAEA70C14D43808005B5397 /* WaterPlanet_84x85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaterPlanet_84x85.png; path = Resources/WaterPlanet_84x85.png; sourceTree = "<group>"; };
 		FEAEA71714D44456005B5397 /* Star_bg1_1024x768.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Star_bg1_1024x768.png; path = Resources/Star_bg1_1024x768.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -580,7 +578,6 @@
 				FEAEA70914D43807005B5397 /* GasPlanet_82x84.png */,
 				FEAEA70A14D43807005B5397 /* Head2_129x82edit1.png */,
 				FEAEA70B14D43807005B5397 /* RockyPlanet_84x85.png */,
-				FEAEA70C14D43808005B5397 /* WaterPlanet_84x85.png */,
 				FEA8836914D3F96000EB9215 /* play.png */,
 				B69C778714D3C412002C9735 /* Default.png */,
 				B69C778914D3C412002C9735 /* fps_images.png */,
@@ -1115,7 +1112,6 @@
 				FEAEA70E14D43808005B5397 /* GasPlanet_82x84.png in Resources */,
 				FEAEA70F14D43808005B5397 /* Head2_129x82edit1.png in Resources */,
 				FEAEA71014D43808005B5397 /* RockyPlanet_84x85.png in Resources */,
-				FEAEA71114D43808005B5397 /* WaterPlanet_84x85.png in Resources */,
 				FEAEA71814D44457005B5397 /* Star_bg1_1024x768.png in Resources */,
 				B6FC4BF214D4736100BF83F3 /* Head2_129x82.png in Resources */,
 			);
