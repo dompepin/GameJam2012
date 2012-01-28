@@ -162,13 +162,13 @@
 		B69C795B14D3C416002C9735 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C795A14D3C416002C9735 /* blocks.png */; };
 		B69C797514D3CE77002C9735 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C797414D3CE77002C9735 /* GameOverScene.m */; };
 		B6FC4BF214D4736100BF83F3 /* Head2_129x82.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FC4BF114D4736100BF83F3 /* Head2_129x82.png */; };
+		FE9570E214D4A56900FF1030 /* WaterPlanet_81x81.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570E114D4A56900FF1030 /* WaterPlanet_81x81.png */; };
 		FEA8836514D3F21A00EB9215 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA8836414D3F21A00EB9215 /* MenuScene.m */; };
 		FEA8836A14D3F96000EB9215 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEA8836914D3F96000EB9215 /* play.png */; };
 		FEAEA70D14D43808005B5397 /* Body blocks_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70814D43807005B5397 /* Body blocks_61x53.png */; };
 		FEAEA70E14D43808005B5397 /* GasPlanet_82x84.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70914D43807005B5397 /* GasPlanet_82x84.png */; };
 		FEAEA70F14D43808005B5397 /* Head2_129x82edit1.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70A14D43807005B5397 /* Head2_129x82edit1.png */; };
 		FEAEA71014D43808005B5397 /* RockyPlanet_84x85.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70B14D43807005B5397 /* RockyPlanet_84x85.png */; };
-		FEAEA71114D43808005B5397 /* WaterPlanet_84x85.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70C14D43808005B5397 /* WaterPlanet_84x85.png */; };
 		FEAEA71814D44457005B5397 /* Star_bg1_1024x768.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA71714D44456005B5397 /* Star_bg1_1024x768.png */; };
 /* End PBXBuildFile section */
 
@@ -489,6 +489,7 @@
 		B69C797314D3CE77002C9735 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		B69C797414D3CE77002C9735 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		B6FC4BF114D4736100BF83F3 /* Head2_129x82.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Head2_129x82.png; sourceTree = "<group>"; };
+		FE9570E114D4A56900FF1030 /* WaterPlanet_81x81.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaterPlanet_81x81.png; path = Resources/WaterPlanet_81x81.png; sourceTree = "<group>"; };
 		FEA8836314D3F21A00EB9215 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FEA8836414D3F21A00EB9215 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
 		FEA8836914D3F96000EB9215 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Resources/play.png; sourceTree = "<group>"; };
@@ -496,7 +497,6 @@
 		FEAEA70914D43807005B5397 /* GasPlanet_82x84.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GasPlanet_82x84.png; path = Resources/GasPlanet_82x84.png; sourceTree = "<group>"; };
 		FEAEA70A14D43807005B5397 /* Head2_129x82edit1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Head2_129x82edit1.png; path = Resources/Head2_129x82edit1.png; sourceTree = "<group>"; };
 		FEAEA70B14D43807005B5397 /* RockyPlanet_84x85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RockyPlanet_84x85.png; path = Resources/RockyPlanet_84x85.png; sourceTree = "<group>"; };
-		FEAEA70C14D43808005B5397 /* WaterPlanet_84x85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WaterPlanet_84x85.png; path = Resources/WaterPlanet_84x85.png; sourceTree = "<group>"; };
 		FEAEA71714D44456005B5397 /* Star_bg1_1024x768.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Star_bg1_1024x768.png; path = Resources/Star_bg1_1024x768.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -574,13 +574,13 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FE9570E114D4A56900FF1030 /* WaterPlanet_81x81.png */,
 				B6FC4BF114D4736100BF83F3 /* Head2_129x82.png */,
 				FEAEA71714D44456005B5397 /* Star_bg1_1024x768.png */,
 				FEAEA70814D43807005B5397 /* Body blocks_61x53.png */,
 				FEAEA70914D43807005B5397 /* GasPlanet_82x84.png */,
 				FEAEA70A14D43807005B5397 /* Head2_129x82edit1.png */,
 				FEAEA70B14D43807005B5397 /* RockyPlanet_84x85.png */,
-				FEAEA70C14D43808005B5397 /* WaterPlanet_84x85.png */,
 				FEA8836914D3F96000EB9215 /* play.png */,
 				B69C778714D3C412002C9735 /* Default.png */,
 				B69C778914D3C412002C9735 /* fps_images.png */,
@@ -1115,9 +1115,9 @@
 				FEAEA70E14D43808005B5397 /* GasPlanet_82x84.png in Resources */,
 				FEAEA70F14D43808005B5397 /* Head2_129x82edit1.png in Resources */,
 				FEAEA71014D43808005B5397 /* RockyPlanet_84x85.png in Resources */,
-				FEAEA71114D43808005B5397 /* WaterPlanet_84x85.png in Resources */,
 				FEAEA71814D44457005B5397 /* Star_bg1_1024x768.png in Resources */,
 				B6FC4BF214D4736100BF83F3 /* Head2_129x82.png in Resources */,
+				FE9570E214D4A56900FF1030 /* WaterPlanet_81x81.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
