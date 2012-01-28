@@ -94,6 +94,7 @@ const short kTagForPlanetSprite = 1;
 
         // adding the snake head after the body so that it renders on top
         [self addChild:_snakeHead];
+        [self reorderChild:_snakeHead z:2];
 
         self.touchArray =[[NSMutableArray alloc ] init];
         [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
@@ -147,7 +148,6 @@ const short kTagForPlanetSprite = 1;
 
         ccDrawLine(start, end);
     }
-    
     
     for (CCSprite *planet in _planetArray) {        
         if (!planet.visible) continue;
@@ -271,6 +271,7 @@ const short kTagForPlanetSprite = 1;
     // and along a random position along the Y axis as calculated above
     planet.position = ccp(winSize.width + (planet.contentSize.width/2), actualY);
     [self addChild:planet];
+    [self reorderChild:planet z:0];
 
     // Determine speed of the target
     int minDuration = 10.0;
@@ -298,6 +299,7 @@ const short kTagForPlanetSprite = 1;
     }
     [self.snakeBody addObject:snakeNode];
     [self addChild:snakeNode];
+    [self reorderChild:snakeNode z:1];
 }
 
 //
