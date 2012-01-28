@@ -162,6 +162,7 @@
 		B69C795B14D3C416002C9735 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C795A14D3C416002C9735 /* blocks.png */; };
 		B69C797514D3CE77002C9735 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C797414D3CE77002C9735 /* GameOverScene.m */; };
 		B69C797714D3CF97002C9735 /* SnakeHead_27x40.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */; };
+		B69C797D14D3F732002C9735 /* SnakeBody_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -481,6 +482,7 @@
 		B69C797314D3CE77002C9735 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		B69C797414D3CE77002C9735 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SnakeHead_27x40.png; sourceTree = "<group>"; };
+		B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SnakeBody_16x16.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -557,6 +559,7 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */,
 				B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */,
 				B69C778714D3C412002C9735 /* Default.png */,
 				B69C778914D3C412002C9735 /* fps_images.png */,
@@ -1085,6 +1088,7 @@
 				B69C779914D3C412002C9735 /* iTunesArtwork in Resources */,
 				B69C795B14D3C416002C9735 /* blocks.png in Resources */,
 				B69C797714D3CF97002C9735 /* SnakeHead_27x40.png in Resources */,
+				B69C797D14D3F732002C9735 /* SnakeBody_16x16.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
