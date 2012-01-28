@@ -20,6 +20,7 @@
 @property(retain, nonatomic) NSMutableArray* snakeBody;
 @property(retain, nonatomic) CCSprite *snakeHead;
 @property(retain, nonatomic) NSMutableArray* touchArray;
+@property(retain, nonatomic) NSMutableArray* deleteArray;
 
 - (void)addSnakeBody;
 
@@ -39,6 +40,7 @@ const short pixelBetweenNodes = 2;
 @synthesize snakeHead = _snakeHead;
 @synthesize snakeBody = _snakeBody;
 @synthesize touchArray = _touchArray;
+@synthesize deleteArray = _deleteArray;
 
 + (CCScene *)scene {
     _snakeSpeed = 200 / 1; //X pixel/seconds
@@ -110,6 +112,7 @@ const short pixelBetweenNodes = 2;
         [self addSnakeBody];
 
         self.touchArray =[[NSMutableArray alloc ] init];
+        self.deleteArray =[[NSMutableArray alloc ] init];
 
         [self schedule:@selector(gameLogic:) interval:1.0];
         [self schedule:@selector(update:)];
@@ -139,7 +142,7 @@ const short pixelBetweenNodes = 2;
 {
     [super draw];
     glEnable(GL_LINE_SMOOTH);
-
+    glColor4ub(0, 0, 0, 255);
     for(int i = 0; i < [_touchArray count]; i+=2)
     {
         CGPoint start = CGPointFromString([_touchArray objectAtIndex:i]);
@@ -158,14 +161,14 @@ const short pixelBetweenNodes = 2;
     [_snakeHead release], _snakeHead = nil;
     [_snakeBody release], _snakeBody = nil;
     [_touchArray release], _touchArray= nil;
+    [_deleteArray release], _deleteArray=nil;
     [super dealloc];
 }
 
 #pragma mark - CCStandardTouchDelegate Members
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    BoardLayer *line = [BoardLayer node];
-    [self addChild: line];
+
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -231,8 +234,15 @@ const short pixelBetweenNodes = 2;
 - (void)update:(ccTime)time {
 
     if (_snakeHead.position.x == _snakeHeading.x &&
-            _snakeHead.position.y == _snakeHeading.y)
+            _snakeHead.position.y == _snakeHeading.y) {
+        //if ([_touchArray count] > 0)
+        //    _snakeHeading = CGPointFromString([_touchArray objectAtIndex:[_touchArray count]-1]);
+        //    [_deleteArray removeAllObjects];
+        //NSIndexSet* indexes = [NSIndexSet ]
+        //[_deleteArray addObjectsFromArray:[_touchArray objectsAtIndexes:(NSIndexSet *)indexes;]]
+        //[_touchArray removeObjectsAtIndexes:<#(NSIndexSet *)indexes#>];
         return;
+    }
 
     CGPoint prevPoint = _snakeHead.position;
 
