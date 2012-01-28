@@ -39,6 +39,9 @@
 float _snakeSpeed;
 CGPoint _previousSnakeHeadPosition;
 CGPoint _snakeHeading;
+NSUInteger _nextHeadingIndex;
+int _planetNum;
+
 const short kPixelBetweenSnakeNodes = 2;
 
 const short kTagForPlanetSprite = 1;
@@ -51,7 +54,7 @@ const short kTagForPlanetSprite = 1;
 
 
 + (CCScene *)scene {
-    _snakeSpeed = 200 / 1; //X pixel/seconds
+    _snakeSpeed = 800 / 1; //X pixel/seconds
 
     // 'scene' is an autorelease object.
     CCScene *scene = [CCScene node];
@@ -66,26 +69,40 @@ const short kTagForPlanetSprite = 1;
     return scene;
 }
 
+- (CCSprite*)getPlanet:(int)planetID {
+    switch (planetID) {
+        case 0:
+            return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
+            break;
+        case 1:
+            return [CCSprite spriteWithFile:@"RockyPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
+            break;
+        case 2:
+            return [CCSprite spriteWithFile:@"WaterPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
+            break;
+        default:
+            return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];            
+            break;
+    }
 
-- (void)addPlanet {
+}
 
-    CCSprite *target = [CCSprite spriteWithFile:@"Planet1_32x32.png"
-                                           rect:CGRectMake(0, 0, 32, 32)];
+- (void)addPlanet:(CCSprite *)planet; {
 
-    target.tag = kTagForPlanetSprite;
-    [_planetArray addObject:target];
+    planet.tag = kTagForPlanetSprite;
+    [_planetArray addObject:planet];
 
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    int minY = target.contentSize.height/2;
-    int maxY = winSize.height - target.contentSize.height/2;
+    int minY = planet.contentSize.height/2;
+    int maxY = winSize.height - planet.contentSize.height/2;
     int rangeY = maxY - minY;
     int actualY = (arc4random() % rangeY) + minY;
 
     // Create the target slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
-    target.position = ccp(winSize.width + (target.contentSize.width/2), actualY);
-    [self addChild:target];
+    planet.position = ccp(winSize.width + (planet.contentSize.width/2), actualY);
+    [self addChild:planet];
 
     // Determine speed of the target
     int minDuration = 10.0;
@@ -95,14 +112,15 @@ const short kTagForPlanetSprite = 1;
 
     // Create the actions
     id actionMove = [CCMoveTo actionWithDuration:actualDuration
-                                        position:ccp(-target.contentSize.width/2, actualY)];
+                                        position:ccp(-planet.contentSize.width/2, actualY)];
     id actionMoveDone = [CCCallFuncN actionWithTarget:self
                                              selector:@selector(planetMoveFinished:)];
-    [target runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+    [planet runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
 }
 
 - (void)gameLogic:(ccTime)dt {
-    [self addPlanet];
+    CCSprite *target = [self getPlanet:(_planetNum%3)];
+    _planetNum++;
 }
 
 // on "init" you need to initialize your instance
@@ -127,6 +145,8 @@ const short kTagForPlanetSprite = 1;
         [self schedule:@selector(update:)];
 
         self.isTouchEnabled = YES;
+        _nextHeadingIndex = 0;
+        _planetNum = 0;
 
         // TODO: Play background music
         //[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];
@@ -152,6 +172,7 @@ const short kTagForPlanetSprite = 1;
     [super draw];
     glEnable(GL_LINE_SMOOTH);
     glColor4ub(0, 0, 0, 255);
+
     for(int i = 0; i < [_touchArray count]; i+=2)
     {
         CGPoint start = CGPointFromString([_touchArray objectAtIndex:i]);
@@ -182,6 +203,11 @@ const short kTagForPlanetSprite = 1;
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+
+    [_touchArray removeAllObjects];
+    _nextHeadingIndex = 0;
+
+
 // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:[touch view]];
@@ -204,10 +230,8 @@ const short kTagForPlanetSprite = 1;
 }
 
 #pragma mark - Private Methods
-
-
 - (void)addSnakeBody {
-    CCSprite *snakeNode = [CCSprite spriteWithFile:@"SnakeBody_16x16.png" rect:CGRectMake(0, 0, 16, 16)];
+    CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body blocks_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
     if ([_snakeBody count] == 0)        {
         snakeNode.position = CGPointMake(_snakeHead.position.x - kPixelBetweenSnakeNodes, _snakeHead.position.y);
     }
@@ -220,7 +244,7 @@ const short kTagForPlanetSprite = 1;
 }
 
 - (void)addSnakeHead:(CGSize)windowsSize {
-    self.snakeHead = [CCSprite spriteWithFile:@"SnakeHead_27x40.png" rect:CGRectMake(0, 0, 27, 40)];
+    self.snakeHead = [CCSprite spriteWithFile:@"Head2_129x82.png" rect:CGRectMake(0, 0, 192, 82)];
     _snakeHead.position = ccp(_snakeHead.contentSize.width / 2, windowsSize.height / 2);
     _previousSnakeHeadPosition = _snakeHead.position;
     [self addChild:_snakeHead];
@@ -253,13 +277,24 @@ const short kTagForPlanetSprite = 1;
 
     if (_snakeHead.position.x == _snakeHeading.x &&
             _snakeHead.position.y == _snakeHeading.y) {
-        //if ([_touchArray count] > 0)
-        //    _snakeHeading = CGPointFromString([_touchArray objectAtIndex:[_touchArray count]-1]);
-        //    [_deleteArray removeAllObjects];
-        //NSIndexSet* indexes = [NSIndexSet ]
-        //[_deleteArray addObjectsFromArray:[_touchArray objectsAtIndexes:(NSIndexSet *)indexes;]]
-        //[_touchArray removeObjectsAtIndexes:<#(NSIndexSet *)indexes#>];
-        return;
+        
+        if (_nextHeadingIndex < [_touchArray count]) {
+            _nextHeadingIndex += 2;
+            if (_nextHeadingIndex >= [_touchArray count]) {
+                [_touchArray removeAllObjects];
+                return;
+            }
+        
+            _snakeHeading = CGPointMake(CGPointFromString([_touchArray objectAtIndex:_nextHeadingIndex]).x, CGPointFromString([_touchArray objectAtIndex:_nextHeadingIndex]).y);
+            CGPoint vector = ccpSub(_snakeHeading, _snakeHead.position);
+            CGFloat rotateAngle = -ccpToAngle(vector);
+            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+            _snakeHead.rotation = angle;
+        }
+        else
+        {
+            return;
+        }
     }
 
     CGPoint prevPoint = _snakeHead.position;
