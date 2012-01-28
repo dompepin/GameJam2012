@@ -18,6 +18,10 @@
 @interface BoardLayer : CCLayerColor
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
+{
+@private
+    NSMutableArray *_planetArray;
+}
 +(CCScene *) scene;
 
 @end
