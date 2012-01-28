@@ -23,6 +23,8 @@
 @property(retain, nonatomic) NSMutableArray* deleteArray;
 @property(retain, nonatomic) NSMutableArray* planetArray;
 
+- (void)addBackground;
+
 - (void)addSnakeBody;
 
 - (void)addSnakeHead:(CGSize)windowsSize;
@@ -120,14 +122,16 @@ const short kTagForPlanetSprite = 1;
 
 - (void)gameLogic:(ccTime)dt {
     CCSprite *target = [self getPlanet:(_planetNum%3)];
+    [self addPlanet:target];
     _planetNum++;
 }
 
 // on "init" you need to initialize your instance
 - (id)init {
-    if ((self = [super initWithColor:ccc4(145, 255, 255, 255)])) {
+    if (self = [super init]) { // initWithColor:ccc4(145, 255, 255, 255)])) {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
-
+        
+        [self addBackground];
         [self addSnakeHead:winSize];
 
         self.snakeBody = [[NSMutableArray alloc] init];
@@ -230,6 +234,12 @@ const short kTagForPlanetSprite = 1;
 }
 
 #pragma mark - Private Methods
+- (void)addBackground {
+    CCSprite* background = [CCSprite spriteWithFile:@"Star_bg1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+    background.position = ccp(1024/2,768/2);
+    [self addChild:background z:-1];
+}
+
 - (void)addSnakeBody {
     CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body blocks_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
     if ([_snakeBody count] == 0)        {
@@ -297,7 +307,7 @@ const short kTagForPlanetSprite = 1;
         }
     }
 
-    CGPoint prevPoint = _snakeHead.position;
+    CGPoint nextPoint = _snakeHead.position;
 
     float distance = [self findDistanceBetween:_snakeHead.position andPoint:_snakeHeading];
     float duration = distance / _snakeSpeed;
@@ -308,10 +318,14 @@ const short kTagForPlanetSprite = 1;
     for (int i = 0; i < [_snakeBody count]; i++) {
 
         CCSprite *bodyNode = ((CCSprite *)[_snakeBody objectAtIndex:i]);
-        [bodyNode runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:prevPoint],
+        CGPoint vector = ccpSub(bodyNode.position, nextPoint);
+        CGFloat rotateAngle = -ccpToAngle(vector);
+        float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+        bodyNode.rotation = angle;
+        [bodyNode runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:nextPoint],
                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeBodyMoveFinished:)],
                                    nil]];
-        prevPoint = bodyNode.position;
+        nextPoint = bodyNode.position;
     }
 }
 
