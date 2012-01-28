@@ -161,9 +161,6 @@
 		B69C795814D3C416002C9735 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = B69C795714D3C416002C9735 /* GLES-Render.mm */; };
 		B69C795B14D3C416002C9735 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C795A14D3C416002C9735 /* blocks.png */; };
 		B69C797514D3CE77002C9735 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C797414D3CE77002C9735 /* GameOverScene.m */; };
-		B69C797714D3CF97002C9735 /* SnakeHead_27x40.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */; };
-		B69C797D14D3F732002C9735 /* SnakeBody_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */; };
-		B69C798814D416ED002C9735 /* Planet1_32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C798714D416ED002C9735 /* Planet1_32x32.png */; };
 		FEA8836514D3F21A00EB9215 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA8836414D3F21A00EB9215 /* MenuScene.m */; };
 		FEA8836A14D3F96000EB9215 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEA8836914D3F96000EB9215 /* play.png */; };
 		FEAEA70D14D43808005B5397 /* Body blocks_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70814D43807005B5397 /* Body blocks_61x53.png */; };
@@ -490,9 +487,6 @@
 		B69C795A14D3C416002C9735 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
 		B69C797314D3CE77002C9735 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		B69C797414D3CE77002C9735 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
-		B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SnakeHead_27x40.png; sourceTree = "<group>"; };
-		B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SnakeBody_16x16.png; sourceTree = "<group>"; };
-		B69C798714D416ED002C9735 /* Planet1_32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Planet1_32x32.png; sourceTree = "<group>"; };
 		FEA8836314D3F21A00EB9215 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FEA8836414D3F21A00EB9215 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
 		FEA8836914D3F96000EB9215 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Resources/play.png; sourceTree = "<group>"; };
@@ -584,10 +578,7 @@
 				FEAEA70A14D43807005B5397 /* Head2_129x82.png */,
 				FEAEA70B14D43807005B5397 /* RockyPlanet_84x85.png */,
 				FEAEA70C14D43808005B5397 /* WaterPlanet_84x85.png */,
-				B69C798714D416ED002C9735 /* Planet1_32x32.png */,
-				B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */,
 				FEA8836914D3F96000EB9215 /* play.png */,
-				B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */,
 				B69C778714D3C412002C9735 /* Default.png */,
 				B69C778914D3C412002C9735 /* fps_images.png */,
 				B69C778B14D3C412002C9735 /* Icon-72.png */,
@@ -1116,10 +1107,7 @@
 				B69C779614D3C412002C9735 /* Icon@2x.png in Resources */,
 				B69C779914D3C412002C9735 /* iTunesArtwork in Resources */,
 				B69C795B14D3C416002C9735 /* blocks.png in Resources */,
-				B69C797714D3CF97002C9735 /* SnakeHead_27x40.png in Resources */,
-				B69C797D14D3F732002C9735 /* SnakeBody_16x16.png in Resources */,
 				FEA8836A14D3F96000EB9215 /* play.png in Resources */,
-				B69C798814D416ED002C9735 /* Planet1_32x32.png in Resources */,
 				FEAEA70D14D43808005B5397 /* Body blocks_61x53.png in Resources */,
 				FEAEA70E14D43808005B5397 /* GasPlanet_82x84.png in Resources */,
 				FEAEA70F14D43808005B5397 /* Head2_129x82.png in Resources */,
