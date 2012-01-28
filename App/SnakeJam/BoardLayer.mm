@@ -473,19 +473,6 @@ const short kTagForPlanetSprite = 1;
 //
 //        nextBodyPartCurrentPoint = tmpPoint;
 //    }
-//
-//    for (CCSprite *planet in _planetArray) {
-//        if (!planet.visible) continue;
-//
-//        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
-//            [_snakeHead runAction:[CCSequence actions:
-//                                   [CCBlink actionWithDuration:1.0 blinks:20],
-//                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
-//             nil]];
-//            planet.visible = NO;
-//            [self addSnakeBody];
-//        }
-//    }
 //}
 
 @end
