@@ -80,11 +80,11 @@ const short kTagForPlanetSprite = 1;
         [self addBackground];
         [self addSnakeHead:winSize];
 
-        self.snakeBody = [[NSMutableArray alloc] init];
-        [self addSnakeBody];
-        [self addSnakeBody];
-        [self addSnakeBody];
-        [self addSnakeBody];
+//        self.snakeBody = [[NSMutableArray alloc] init];
+//        [self addSnakeBody];
+//        [self addSnakeBody];
+//        [self addSnakeBody];
+//        [self addSnakeBody];
 
         self.touchArray =[[NSMutableArray alloc ] init];
         self.deleteArray =[[NSMutableArray alloc ] init];
@@ -134,6 +134,41 @@ const short kTagForPlanetSprite = 1;
         CGPoint end = CGPointFromString([_touchArray objectAtIndex:i+1]);
 
         ccDrawLine(start, end);
+    }
+    
+    
+    for (CCSprite *planet in _planetArray) {        
+        if (!planet.visible) continue;
+       
+        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {  
+            [_snakeHead runAction:[CCSequence actions:
+                                   [CCBlink actionWithDuration:1.0 blinks:20],
+                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
+                                   nil]];  
+            planet.visible = NO;
+            //[self addSnakeBody];             
+        }
+        
+        // set this to yes for debug purposes
+        BOOL drawBoundingBoxes=NO;
+        if (drawBoundingBoxes) {
+            CGRect rect = _snakeHead.boundingBox;
+            CGPoint vertices[4]={
+                ccp(rect.origin.x,rect.origin.y),
+                ccp(rect.origin.x+rect.size.width,rect.origin.y),
+                ccp(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height),
+                ccp(rect.origin.x,rect.origin.y+rect.size.height),
+            };
+            ccDrawPoly(vertices, 4, YES);
+            rect = planet.boundingBox;
+            CGPoint vertices1[4]={
+                ccp(rect.origin.x,rect.origin.y),
+                ccp(rect.origin.x+rect.size.width,rect.origin.y),
+                ccp(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height),
+                ccp(rect.origin.x,rect.origin.y+rect.size.height),
+            };
+            ccDrawPoly(vertices1, 4, YES);
+        }
     }
 }
 
@@ -251,9 +286,9 @@ const short kTagForPlanetSprite = 1;
 
 //
 - (void)addSnakeHead:(CGSize)windowsSize {
-    self.snakeHead = [CCSprite spriteWithFile:@"Head2_129x82.png" rect:CGRectMake(0, 0, 192, 82)];
-    _snakeHead.position = ccp(_snakeHead.contentSize.width / 2, windowsSize.height / 2);
-    _previousSnakeHeadPosition = _snakeHead.position;
+    self.snakeHead = [CCSprite spriteWithFile:@"Head2_129x82.png" rect:CGRectMake(0, 0, 129, 82)];
+    //_snakeHead.position = ccp(_snakeHead.contentSize.width / 2, windowsSize.height / 2);
+    //_previousSnakeHeadPosition = _snakeHead.position;
     [self addChild:_snakeHead];
 }
 
@@ -278,8 +313,6 @@ const short kTagForPlanetSprite = 1;
             break;
     }
 }
-
-
 
 
 // Occurs when the snake body finished moving
@@ -350,18 +383,7 @@ const short kTagForPlanetSprite = 1;
         nextPoint = bodyNode.position;
     }
     
-    for (CCSprite *planet in _planetArray) {        
-        if (!planet.visible) continue;
-        
-        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {  
-            [_snakeHead runAction:[CCSequence actions:
-                                   [CCBlink actionWithDuration:1.0 blinks:20],
-                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
-             nil]];  
-            planet.visible = NO;
-            [self addSnakeBody];             
-        }
-    }
+    
 }
 
 @end
