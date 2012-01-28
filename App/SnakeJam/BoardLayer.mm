@@ -339,6 +339,13 @@ const short kTagForPlanetSprite = 1;
             timeLeft -= timeLeft * distanceTraveled/distanceToTravel;
             distanceToTravel -= distanceTraveled;
             prevPoint = tmpPoint;
+
+            // rotate the head
+            CGPoint vector = ccpSub(tmpPoint, prevPoint);
+            CGFloat rotateAngle = -ccpToAngle(vector);
+            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+            _snakeHead.rotation = angle;
+
             continue;
         }
         else
@@ -350,6 +357,12 @@ const short kTagForPlanetSprite = 1;
             CGPoint actualTarget = ccpAdd(prevPoint, ccpMult(targetPerSecond, timeLeft));
 
             _snakeHead.position = actualTarget;
+
+
+            // rotate the head
+            CGFloat rotateAngle = -ccpToAngle(offset);
+            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+            _snakeHead.rotation = angle;
             break;
         }
     }
