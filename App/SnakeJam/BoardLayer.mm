@@ -20,6 +20,7 @@
 @property(retain, nonatomic) NSMutableArray* snakeBody;
 @property(retain, nonatomic) CCSprite *snakeHead;
 @property(retain, nonatomic) NSMutableArray* touchArray;
+@property(retain, nonatomic) NSMutableArray* testArray;
 @property(retain, nonatomic) NSMutableArray* planetArray;
 
 - (void)gameLogic:(ccTime)dt;
@@ -58,6 +59,8 @@ const short kTagForPlanetSprite = 1;
 @synthesize touchArray = _touchArray;
 @synthesize deleteArray = _deleteArray;
 @synthesize planetArray = _planetArray;
+@synthesize testArray = _testArray;
+
 
 // on "dealloc" you need to release all your retained objects
 - (void)dealloc {
@@ -70,6 +73,7 @@ const short kTagForPlanetSprite = 1;
     [_touchArray release], _touchArray= nil;
     [_deleteArray release], _deleteArray=nil;
     [_planetArray release];
+    [_testArray release];
     [super dealloc];
 }
 
@@ -77,7 +81,32 @@ const short kTagForPlanetSprite = 1;
 - (id)init {
     if (self = [super init]) { // initWithColor:ccc4(145, 255, 255, 255)])) {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
-        
+
+        self.testArray = [[NSMutableArray alloc] init];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 0))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 10))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 20))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 30))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 40))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 50))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 60))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 70))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 80))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(0, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(10, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(20, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(30, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(40, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(50, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(60, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(70, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(80, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(90, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(100, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(110, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(120, 90))];
+        [_testArray addObject:NSStringFromCGPoint(CGPointMake(130, 90))];
+
         [self addBackground];
 
         [self createSnakeHead:winSize];
@@ -310,68 +339,145 @@ const short kTagForPlanetSprite = 1;
 }
 
 
-- (void)update:(ccTime)time {
+- (CGPoint)findPositionAlongPath:(NSMutableArray *)path time:(ccTime)time {
+   ccTime timeLeft = time;
 
-    if (_snakeHead.position.x == _snakeHeading.x &&
-            _snakeHead.position.y == _snakeHeading.y) {
-
-        // if head arrives at the start of the path, follow path
-        if (_nextHeadingIndex < [_touchArray count]) {
-            _nextHeadingIndex += 2;
-            if (_nextHeadingIndex >= [_touchArray count]) {
-                [_touchArray removeAllObjects];
-                return;
-            }
+    float distanceToTravel = time * _snakeSpeed;
+    if ([path count] == 0)
+        return;
+    
+    CGPoint prevPoint = CGPointMake(CGPointFromString([path objectAtIndex:0]).x, CGPointFromString([path objectAtIndex:0]).y);
+    int i = 1;
+    for (i = 1; i < [path count]; i++) {
         
-            _snakeHeading = CGPointMake(CGPointFromString([_touchArray objectAtIndex:_nextHeadingIndex]).x, CGPointFromString([_touchArray objectAtIndex:_nextHeadingIndex]).y);
-            CGPoint vector = ccpSub(_snakeHeading, _snakeHead.position);
-            CGFloat rotateAngle = -ccpToAngle(vector);
-            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
-            _snakeHead.rotation = angle;
+        CGPoint tmpPoint = CGPointMake(CGPointFromString([path objectAtIndex:i]).x, CGPointFromString([path objectAtIndex:i]).y);
+        float distanceTraveled = [self findDistanceBetween:prevPoint andPoint:tmpPoint];
+        if (distanceToTravel > distanceTraveled)
+        {
+            distanceToTravel -= distanceTraveled;
+            timeLeft -= timeLeft * distanceTraveled/distanceToTravel;
+            prevPoint = tmpPoint;
+            continue;
         }
         else
         {
-            return;
+            CGPoint offset = ccpSub(prevPoint, tmpPoint);
+            CGPoint targetVector = ccpNormalize(offset);
+            CGPoint targetPerSecond = ccpMult(targetVector, _snakeSpeed);
+
+            CGPoint actualTarget = ccpAdd(prevPoint, ccpMult(targetPerSecond, timeLeft));
+
+            _snakeHead.position = actualTarget;
+            break;
         }
     }
 
-    CGPoint nextBodyPartCurrentPoint = _snakeHead.position;
+    NSMutableArray *newArray = [[NSMutableArray alloc] init];
+    [newArray addObject:NSStringFromCGPoint(_snakeHead.position)];
+    for (int j = i; j < [path count]; i++) {
 
-    float distance = [self findDistanceBetween:_snakeHead.position andPoint:_snakeHeading];
-    float duration = distance / _snakeSpeed;
-    [_snakeHead runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:_snakeHeading],
-    [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadMoveFinished:)],
-    nil]];
-
-    for (int i = 0; i < [_snakeBody count]; i++) {
-
-        
-        CCSprite *bodyNode = ((CCSprite *)[_snakeBody objectAtIndex:i]);
-        CGPoint tmpPoint = bodyNode.position;
-        CGPoint vector = ccpSub(bodyNode.position, nextBodyPartCurrentPoint);
-        CGFloat rotateAngle = -ccpToAngle(vector);
-        float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
-        bodyNode.rotation = angle;
-
-        [bodyNode runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:nextBodyPartCurrentPoint],
-                                  [CCCallFuncN actionWithTarget:self selector:@selector(snakeBodyMoveFinished:)],
-                                   nil]];
-       
-        nextBodyPartCurrentPoint = tmpPoint;
+        [newArray addObject:[path objectAtIndex:j]];
     }
     
-    for (CCSprite *planet in _planetArray) {        
-        if (!planet.visible) continue;
-        
-        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {  
-            [_snakeHead runAction:[CCSequence actions:
-                                   [CCBlink actionWithDuration:1.0 blinks:20],
-                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
-             nil]];  
-            planet.visible = NO;
-            [self addSnakeBody];             
-        }
-    }
+    path = newArray;
 }
+
+- (void)update:(ccTime)time {
+
+    if (_snakeHead.position.x == _snakeHeading.x &&
+            _snakeHead.position.y == _snakeHeading.y)
+        return;
+
+   
+
+    NSMutableArray *path = [NSMutableArray arrayWithCapacity:[_touchArray count] + 1];
+    if (_snakeHeading != CGPointZero)
+        [path addObject:NSStringFromCGPoint(_snakeHeading)];
+    for (int i = 0; i < [_touchArray count]; i++) {
+        [path addObject:[_touchArray objectAtIndex:i]];
+    }
+    
+    CGPoint newHeading = [self findPositionAlongPath:(NSMutableArray *)path time:(ccTime)time;
+    // 2
+   // if we did not move enough, its not worth it to continue drawing the body
+    float MIN_OFFSET = 10;
+    CGPoint offset = ccpSub(_snakeHeading, _snakeHead.position);
+    if (ccpLength(offset) < MIN_OFFSET)
+        return;
+   // 3
+
+   // 4
+   CGPoint targetVector = ccpNormalize(offset);
+   // 5
+   CGPoint targetPerSecond = ccpMult(targetVector, _snakeSpeed);
+   // 6
+   CGPoint actualTarget = ccpAdd(_snakeHead.position, ccpMult(targetPerSecond, time));
+    // 7
+   _snakeHead.position = actualTarget;
+}
+
+//- (void)update:(ccTime)time {
+//
+//    if (_snakeHead.position.x == _snakeHeading.x &&
+//            _snakeHead.position.y == _snakeHeading.y) {
+//
+//        // if head arrives at the start of the path, follow path
+//        if (_nextHeadingIndex < [_touchArray count]) {
+//            _nextHeadingIndex += 2;
+//            if (_nextHeadingIndex >= [_touchArray count]) {
+//                [_touchArray removeAllObjects];
+//                return;
+//            }
+//
+//            _snakeHeading = CGPointMake(CGPointFromString([_touchArray objectAtIndex:_nextHeadingIndex]).x, CGPointFromString([_touchArray objectAtIndex:_nextHeadingIndex]).y);
+//            CGPoint vector = ccpSub(_snakeHeading, _snakeHead.position);
+//            CGFloat rotateAngle = -ccpToAngle(vector);
+//            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+//            _snakeHead.rotation = angle;
+//        }
+//        else
+//        {
+//            return;
+//        }
+//    }
+//
+//    CGPoint nextBodyPartCurrentPoint = _snakeHead.position;
+//
+//    float distance = [self findDistanceBetween:_snakeHead.position andPoint:_snakeHeading];
+//    float duration = distance / _snakeSpeed;
+//    [_snakeHead runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:_snakeHeading],
+//    [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadMoveFinished:)],
+//    nil]];
+//
+//    for (int i = 0; i < [_snakeBody count]; i++) {
+//
+//
+//        CCSprite *bodyNode = ((CCSprite *)[_snakeBody objectAtIndex:i]);
+//        CGPoint tmpPoint = bodyNode.position;
+//        CGPoint vector = ccpSub(bodyNode.position, nextBodyPartCurrentPoint);
+//        CGFloat rotateAngle = -ccpToAngle(vector);
+//        float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+//        bodyNode.rotation = angle;
+//
+//        [bodyNode runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:nextBodyPartCurrentPoint],
+//                                  [CCCallFuncN actionWithTarget:self selector:@selector(snakeBodyMoveFinished:)],
+//                                   nil]];
+//
+//        nextBodyPartCurrentPoint = tmpPoint;
+//    }
+//
+//    for (CCSprite *planet in _planetArray) {
+//        if (!planet.visible) continue;
+//
+//        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
+//            [_snakeHead runAction:[CCSequence actions:
+//                                   [CCBlink actionWithDuration:1.0 blinks:20],
+//                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
+//             nil]];
+//            planet.visible = NO;
+//            [self addSnakeBody];
+//        }
+//    }
+//}
 
 @end

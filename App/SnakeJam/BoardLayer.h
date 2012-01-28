@@ -21,6 +21,7 @@
 {
 @private
     NSMutableArray *_planetArray;
+    NSMutableArray *_testArray;
 }
 +(CCScene *) scene;
 
