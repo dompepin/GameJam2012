@@ -157,7 +157,7 @@
 		B69C794C14D3C416002C9735 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C794B14D3C416002C9735 /* main.m */; };
 		B69C794F14D3C416002C9735 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = B69C794E14D3C416002C9735 /* AppDelegate.mm */; };
 		B69C795214D3C416002C9735 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C795114D3C416002C9735 /* RootViewController.m */; };
-		B69C795514D3C416002C9735 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = B69C795414D3C416002C9735 /* HelloWorldLayer.mm */; };
+		B69C795514D3C416002C9735 /* BoardLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = B69C795414D3C416002C9735 /* BoardLayer.mm */; };
 		B69C795814D3C416002C9735 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = B69C795714D3C416002C9735 /* GLES-Render.mm */; };
 		B69C795B14D3C416002C9735 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C795A14D3C416002C9735 /* blocks.png */; };
 /* End PBXBuildFile section */
@@ -470,8 +470,8 @@
 		B69C794E14D3C416002C9735 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		B69C795014D3C416002C9735 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		B69C795114D3C416002C9735 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		B69C795314D3C416002C9735 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
-		B69C795414D3C416002C9735 /* HelloWorldLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldLayer.mm; sourceTree = "<group>"; };
+		B69C795314D3C416002C9735 /* BoardLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardLayer.h; sourceTree = "<group>"; };
+		B69C795414D3C416002C9735 /* BoardLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BoardLayer.mm; sourceTree = "<group>"; };
 		B69C795614D3C416002C9735 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		B69C795714D3C416002C9735 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		B69C795914D3C416002C9735 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
@@ -536,8 +536,8 @@
 				B69C794E14D3C416002C9735 /* AppDelegate.mm */,
 				B69C795014D3C416002C9735 /* RootViewController.h */,
 				B69C795114D3C416002C9735 /* RootViewController.m */,
-				B69C795314D3C416002C9735 /* HelloWorldLayer.h */,
-				B69C795414D3C416002C9735 /* HelloWorldLayer.mm */,
+				B69C795314D3C416002C9735 /* BoardLayer.h */,
+				B69C795414D3C416002C9735 /* BoardLayer.mm */,
 				B69C795614D3C416002C9735 /* GLES-Render.h */,
 				B69C795714D3C416002C9735 /* GLES-Render.mm */,
 				B69C795914D3C416002C9735 /* GameConfig.h */,
@@ -1211,7 +1211,7 @@
 				B69C794C14D3C416002C9735 /* main.m in Sources */,
 				B69C794F14D3C416002C9735 /* AppDelegate.mm in Sources */,
 				B69C795214D3C416002C9735 /* RootViewController.m in Sources */,
-				B69C795514D3C416002C9735 /* HelloWorldLayer.mm in Sources */,
+				B69C795514D3C416002C9735 /* BoardLayer.mm in Sources */,
 				B69C795814D3C416002C9735 /* GLES-Render.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
