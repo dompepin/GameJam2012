@@ -30,7 +30,7 @@
 
 - (void)addSnakeBody;
 
-- (void)addSnakeHead:(CGSize)windowsSize;
+- (void)createSnakeHead:(CGSize)windowsSize;
 
 - (float)findDistanceBetween:(CGPoint)point1 andPoint:(CGPoint)point2;
 
@@ -48,7 +48,8 @@ CGPoint _snakeHeading;
 NSUInteger _nextHeadingIndex;
 int _planetNum;
 
-const short kPixelBetweenSnakeNodes = 2;
+const short kPixelBetweenHeadAndBody = 129 / 2;
+const short kPixelBetweenSnakeNodes = 61 / 2;
 
 const short kTagForPlanetSprite = 1;
 
@@ -79,13 +80,16 @@ const short kTagForPlanetSprite = 1;
         
         [self addBackground];
 
+        [self createSnakeHead:winSize];
+
         self.snakeBody = [[NSMutableArray alloc] init];
         [self addSnakeBody];
         [self addSnakeBody];
         [self addSnakeBody];
         [self addSnakeBody];
 
-        [self addSnakeHead:winSize];
+        // adding the snake head after the body so that it renders on top
+        [self addChild:_snakeHead];
 
         self.touchArray =[[NSMutableArray alloc ] init];
         self.deleteArray =[[NSMutableArray alloc ] init];
@@ -99,6 +103,7 @@ const short kTagForPlanetSprite = 1;
         _nextHeadingIndex = 0;
         _planetNum = 0;
 
+        _snakeHeading = CGPointMake(winSize.width, winSize.height/2);
         // TODO: Play background music
         //[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];
     }
@@ -240,7 +245,7 @@ const short kTagForPlanetSprite = 1;
 - (void)addSnakeBody {
     CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body blocks_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
     if ([_snakeBody count] == 0)        {
-        snakeNode.position = CGPointMake(_snakeHead.position.x - kPixelBetweenSnakeNodes, _snakeHead.position.y);
+        snakeNode.position = CGPointMake(_snakeHead.position.x + kPixelBetweenSnakeNodes, _snakeHead.position.y + 100);
     }
     else{
         CCSprite *bodyNode = [_snakeBody objectAtIndex:([_snakeBody count]-1)];
@@ -251,11 +256,10 @@ const short kTagForPlanetSprite = 1;
 }
 
 //
-- (void)addSnakeHead:(CGSize)windowsSize {
+- (void)createSnakeHead:(CGSize)windowsSize {
     self.snakeHead = [CCSprite spriteWithFile:@"Head2_129x82.png" rect:CGRectMake(0, 0, 192, 82)];
     _snakeHead.position = ccp(_snakeHead.contentSize.width / 2, windowsSize.height / 2);
     _previousSnakeHeadPosition = _snakeHead.position;
-    [self addChild:_snakeHead];
 }
 
 - (float)findDistanceBetween:(CGPoint)point1 andPoint:(CGPoint)point2 {
@@ -310,7 +314,8 @@ const short kTagForPlanetSprite = 1;
 
     if (_snakeHead.position.x == _snakeHeading.x &&
             _snakeHead.position.y == _snakeHeading.y) {
-        
+
+        // if head arrives at the start of the path, follow path
         if (_nextHeadingIndex < [_touchArray count]) {
             _nextHeadingIndex += 2;
             if (_nextHeadingIndex >= [_touchArray count]) {
@@ -330,7 +335,7 @@ const short kTagForPlanetSprite = 1;
         }
     }
 
-    CGPoint nextPoint = _snakeHead.position;
+    CGPoint nextBodyPartCurrentPoint = _snakeHead.position;
 
     float distance = [self findDistanceBetween:_snakeHead.position andPoint:_snakeHeading];
     float duration = distance / _snakeSpeed;
@@ -340,15 +345,19 @@ const short kTagForPlanetSprite = 1;
 
     for (int i = 0; i < [_snakeBody count]; i++) {
 
+        
         CCSprite *bodyNode = ((CCSprite *)[_snakeBody objectAtIndex:i]);
-        CGPoint vector = ccpSub(bodyNode.position, nextPoint);
+        CGPoint tmpPoint = bodyNode.position;
+        CGPoint vector = ccpSub(bodyNode.position, nextBodyPartCurrentPoint);
         CGFloat rotateAngle = -ccpToAngle(vector);
         float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
         bodyNode.rotation = angle;
-        [bodyNode runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:nextPoint],
+
+        [bodyNode runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:nextBodyPartCurrentPoint],
                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeBodyMoveFinished:)],
                                    nil]];
-        nextPoint = bodyNode.position;
+       
+        nextBodyPartCurrentPoint = tmpPoint;
     }
     
     for (CCSprite *planet in _planetArray) {        
