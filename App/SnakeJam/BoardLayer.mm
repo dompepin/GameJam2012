@@ -6,7 +6,6 @@
 //  Copyright __MyCompanyName__ 2012. All rights reserved.
 //
 
-
 // Import the interfaces
 #import "BoardLayer.h"
 #import "CCActionInterval.h"
@@ -17,13 +16,17 @@
 // HelloWorldLayer implementation
 @interface BoardLayer ()
 
+@property(retain, nonatomic) NSMutableArray* deleteArray;
 @property(retain, nonatomic) NSMutableArray* snakeBody;
 @property(retain, nonatomic) CCSprite *snakeHead;
 @property(retain, nonatomic) NSMutableArray* touchArray;
-@property(retain, nonatomic) NSMutableArray* deleteArray;
 @property(retain, nonatomic) NSMutableArray* planetArray;
 
+- (void)gameLogic:(ccTime)dt;
+
 - (void)addBackground;
+
+- (void)addPlanet:(CCSprite *)planet;
 
 - (void)addSnakeBody;
 
@@ -31,8 +34,9 @@
 
 - (float)findDistanceBetween:(CGPoint)point1 andPoint:(CGPoint)point2;
 
-- (void)planetMoveFinished:(id)sender;
+- (CCSprite *)getPlanet:(int)planetID;
 
+- (void)planetMoveFinished:(id)sender;
 
 @end
 
@@ -54,76 +58,18 @@ const short kTagForPlanetSprite = 1;
 @synthesize deleteArray = _deleteArray;
 @synthesize planetArray = _planetArray;
 
+// on "dealloc" you need to release all your retained objects
+- (void)dealloc {
+    // in case you have something to dealloc, do it in this method
+    // in this particular example nothing needs to be released.
+    // cocos2d will automatically release all the children (Label)
 
-+ (CCScene *)scene {
-    _snakeSpeed = 800 / 1; //X pixel/seconds
-
-    // 'scene' is an autorelease object.
-    CCScene *scene = [CCScene node];
-
-    // 'layer' is an autorelease object.
-    BoardLayer *layer = [BoardLayer node];
-
-    // add layer as a child to scene
-    [scene addChild:layer];
-
-    // return the scene
-    return scene;
-}
-
-- (CCSprite*)getPlanet:(int)planetID {
-    switch (planetID) {
-        case 0:
-            return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
-            break;
-        case 1:
-            return [CCSprite spriteWithFile:@"RockyPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
-            break;
-        case 2:
-            return [CCSprite spriteWithFile:@"WaterPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
-            break;
-        default:
-            return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];            
-            break;
-    }
-
-}
-
-- (void)addPlanet:(CCSprite *)planet; {
-
-    planet.tag = kTagForPlanetSprite;
-    [_planetArray addObject:planet];
-
-    // Determine where to spawn the target along the Y axis
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    int minY = planet.contentSize.height/2;
-    int maxY = winSize.height - planet.contentSize.height/2;
-    int rangeY = maxY - minY;
-    int actualY = (arc4random() % rangeY) + minY;
-
-    // Create the target slightly off-screen along the right edge,
-    // and along a random position along the Y axis as calculated above
-    planet.position = ccp(winSize.width + (planet.contentSize.width/2), actualY);
-    [self addChild:planet];
-
-    // Determine speed of the target
-    int minDuration = 10.0;
-    int maxDuration = 30.0;
-    int rangeDuration = maxDuration - minDuration;
-    int actualDuration = (arc4random() % rangeDuration) + minDuration;
-
-    // Create the actions
-    id actionMove = [CCMoveTo actionWithDuration:actualDuration
-                                        position:ccp(-planet.contentSize.width/2, actualY)];
-    id actionMoveDone = [CCCallFuncN actionWithTarget:self
-                                             selector:@selector(planetMoveFinished:)];
-    [planet runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-}
-
-- (void)gameLogic:(ccTime)dt {
-    CCSprite *target = [self getPlanet:(_planetNum%3)];
-    [self addPlanet:target];
-    _planetNum++;
+    [_snakeHead release], _snakeHead = nil;
+    [_snakeBody release], _snakeBody = nil;
+    [_touchArray release], _touchArray= nil;
+    [_deleteArray release], _deleteArray=nil;
+    [_planetArray release];
+    [super dealloc];
 }
 
 // on "init" you need to initialize your instance
@@ -158,18 +104,23 @@ const short kTagForPlanetSprite = 1;
     return self;
 }
 
--(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event  {
-    UITouch *touch = [ touches anyObject];
-    CGPoint new_location = [touch locationInView: [touch view]];
-    new_location = [[CCDirector sharedDirector] convertToGL:new_location];
++ (CCScene *)scene {
+    _snakeSpeed = 800 / 1; //X pixel/seconds
 
-    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
-    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
-    oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
+    // 'scene' is an autorelease object.
+    CCScene *scene = [CCScene node];
 
-    [self.touchArray addObject:NSStringFromCGPoint(new_location)];
-    [self.touchArray addObject:NSStringFromCGPoint(oldTouchLocation)];
+    // 'layer' is an autorelease object.
+    BoardLayer *layer = [BoardLayer node];
+
+    // add layer as a child to scene
+    [scene addChild:layer];
+
+    // return the scene
+    return scene;
 }
+
+#pragma mark - CCNode Overrides
 
 -(void)draw
 {
@@ -186,25 +137,7 @@ const short kTagForPlanetSprite = 1;
     }
 }
 
-// on "dealloc" you need to release all your retained objects
-- (void)dealloc {
-    // in case you have something to dealloc, do it in this method
-    // in this particular example nothing needs to be released.
-    // cocos2d will automatically release all the children (Label)
-
-    [_snakeHead release], _snakeHead = nil;
-    [_snakeBody release], _snakeBody = nil;
-    [_touchArray release], _touchArray= nil;
-    [_deleteArray release], _deleteArray=nil;
-    [_planetArray release];
-    [super dealloc];
-}
-
 #pragma mark - CCStandardTouchDelegate Members
-
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-
-}
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 
@@ -233,13 +166,76 @@ const short kTagForPlanetSprite = 1;
 
 }
 
+//
+-(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event  {
+    UITouch *touch = [ touches anyObject];
+    CGPoint new_location = [touch locationInView: [touch view]];
+    new_location = [[CCDirector sharedDirector] convertToGL:new_location];
+
+    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
+    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
+    oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
+
+    [self.touchArray addObject:NSStringFromCGPoint(new_location)];
+    [self.touchArray addObject:NSStringFromCGPoint(oldTouchLocation)];
+}
+
+//
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
+}
+
+//
+#pragma mark - update methods
+
+- (void)gameLogic:(ccTime)dt {
+    CCSprite *target = [self getPlanet:(_planetNum%3)];
+    [self addPlanet:target];
+    _planetNum++;
+}
+
 #pragma mark - Private Methods
+
+//
 - (void)addBackground {
     CCSprite* background = [CCSprite spriteWithFile:@"Star_bg1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
     background.position = ccp(1024/2,768/2);
     [self addChild:background z:-1];
 }
 
+//
+- (void)addPlanet:(CCSprite *)planet; {
+
+    planet.tag = kTagForPlanetSprite;
+    [_planetArray addObject:planet];
+
+    // Determine where to spawn the target along the Y axis
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    int minY = planet.contentSize.height/2;
+    int maxY = winSize.height - planet.contentSize.height/2;
+    int rangeY = maxY - minY;
+    int actualY = (arc4random() % rangeY) + minY;
+
+    // Create the target slightly off-screen along the right edge,
+    // and along a random position along the Y axis as calculated above
+    planet.position = ccp(winSize.width + (planet.contentSize.width/2), actualY);
+    [self addChild:planet];
+
+    // Determine speed of the target
+    int minDuration = 10.0;
+    int maxDuration = 30.0;
+    int rangeDuration = maxDuration - minDuration;
+    int actualDuration = (arc4random() % rangeDuration) + minDuration;
+
+    // Create the actions
+    id actionMove = [CCMoveTo actionWithDuration:actualDuration
+                                        position:ccp(-planet.contentSize.width/2, actualY)];
+    id actionMoveDone = [CCCallFuncN actionWithTarget:self
+                                             selector:@selector(planetMoveFinished:)];
+    [planet runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+}
+
+//
 - (void)addSnakeBody {
     CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body blocks_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
     if ([_snakeBody count] == 0)        {
@@ -253,6 +249,7 @@ const short kTagForPlanetSprite = 1;
     [self addChild:snakeNode];
 }
 
+//
 - (void)addSnakeHead:(CGSize)windowsSize {
     self.snakeHead = [CCSprite spriteWithFile:@"Head2_129x82.png" rect:CGRectMake(0, 0, 192, 82)];
     _snakeHead.position = ccp(_snakeHead.contentSize.width / 2, windowsSize.height / 2);
@@ -263,6 +260,24 @@ const short kTagForPlanetSprite = 1;
 - (float)findDistanceBetween:(CGPoint)point1 andPoint:(CGPoint)point2 {
      return sqrt(powf(point1.x - point2.x, 2.f) + powf(point1.y - point2.y, 2.f));
  }
+
+//
+- (CCSprite*)getPlanet:(int)planetID {
+    switch (planetID) {
+        case 0:
+            return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
+            break;
+        case 1:
+            return [CCSprite spriteWithFile:@"RockyPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
+            break;
+        case 2:
+            return [CCSprite spriteWithFile:@"WaterPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
+            break;
+        default:
+            return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
+            break;
+    }
+}
 
 // Occurs when the snake body finished moving
 - (void)planetMoveFinished:(id)sender {
