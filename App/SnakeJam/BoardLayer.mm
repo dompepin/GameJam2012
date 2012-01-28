@@ -320,10 +320,10 @@ const short kTagForPlanetSprite = 1;
             return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
             break;
         case 1:
-            return [CCSprite spriteWithFile:@"WaterPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
+            return [CCSprite spriteWithFile:@"WaterPlanet_81x81.png" rect:CGRectMake(0, 0, 81, 81)];
             break;
         case 2:
-            return [CCSprite spriteWithFile:@"RockyPlanet_84x85.png" rect:CGRectMake(0, 0, 85, 85)];
+            return [CCSprite spriteWithFile:@"RockyPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
             break;
         default:
             return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
