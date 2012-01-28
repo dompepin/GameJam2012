@@ -19,6 +19,8 @@
 #define kGameAutorotationCCDirector 1
 #define kGameAutorotationUIViewController 2
 
+#define kGameBackgroundColor ccc4(174, 206, 139, 255)
+
 //
 // Define here the type of autorotation that you want for your game
 //
