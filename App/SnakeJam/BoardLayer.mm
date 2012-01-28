@@ -23,7 +23,7 @@
 
 @property(retain, nonatomic) CCSprite *snakeHead;
 @property(retain, nonatomic) NSMutableArray* snakeBody;
-
+@property(retain, nonatomic) NSMutableArray* touchArray;
 @end
 
 @implementation BoardLayer
@@ -31,9 +31,9 @@
 NSMutableArray *_snakeBody;
 float _speed;
 
-
 @synthesize snakeHead = _snakeHead;
 @synthesize snakeBody = _snakeBody;
+@synthesize touchArray = _touchArray;
 
 
 + (CCScene *)scene {
@@ -54,6 +54,7 @@ float _speed;
 
 
 - (void)spriteMoveFinished:(id)sender {
+
 //    CCSprite *sprite = (CCSprite *) sender;
 //
 //    [self removeChild:sprite cleanup:YES];
@@ -112,13 +113,40 @@ float _speed;
         [self schedule:@selector(update:)];
 
         self.snakeBody = [[NSMutableArray alloc] init];
-
+        self.touchArray =[[NSMutableArray alloc ] init];
         self.isTouchEnabled = YES;
 
         // TODO: Play background music
         //[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];
     }
     return self;
+}
+
+-(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event  {
+    UITouch *touch = [ touches anyObject];
+    CGPoint new_location = [touch locationInView: [touch view]];
+    new_location = [[CCDirector sharedDirector] convertToGL:new_location];
+
+    CGPoint oldTouchLocation = [touch previousLocationInView:touch.view];
+    oldTouchLocation = [[CCDirector sharedDirector] convertToGL:oldTouchLocation];
+    oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
+
+    [self.touchArray addObject:NSStringFromCGPoint(new_location)];
+    [self.touchArray addObject:NSStringFromCGPoint(oldTouchLocation)];
+}
+
+-(void)draw
+{
+    [super draw];
+    glEnable(GL_LINE_SMOOTH);
+
+    for(int i = 0; i < [_touchArray count]; i+=2)
+    {
+        CGPoint start = CGPointFromString([_touchArray objectAtIndex:i]);
+        CGPoint end = CGPointFromString([_touchArray objectAtIndex:i+1]);
+
+        ccDrawLine(start, end);
+    }
 }
 
 // on "dealloc" you need to release all your retained objects
@@ -129,13 +157,17 @@ float _speed;
 
     [_snakeHead release], _snakeHead = nil;
     [_snakeBody release], _snakeBody = nil;
-
+    [_touchArray release], _touchArray= nil;
     [super dealloc];
 }
 
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    BoardLayer *line = [BoardLayer node];
+    [self addChild: line];
+}
 
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:[touch view]];
