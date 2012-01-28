@@ -19,6 +19,7 @@
 {
 @private
     CCSprite *_snakeHead;
+    NSMutableArray *_snakeBody;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
