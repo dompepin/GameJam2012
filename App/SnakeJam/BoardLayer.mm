@@ -134,7 +134,7 @@ const short kTagForPlanetSprite = 1;
     glEnable(GL_LINE_SMOOTH);
     glColor4ub(0, 0, 0, 255);
 
-    for(int i = 0; i < [_touchArray count]; i+=2)
+    for(int i = _nextHeadingIndex; i < [_touchArray count]; i+=2)
     {
         CGPoint start = CGPointFromString([_touchArray objectAtIndex:i]);
         CGPoint end = CGPointFromString([_touchArray objectAtIndex:i+1]);
