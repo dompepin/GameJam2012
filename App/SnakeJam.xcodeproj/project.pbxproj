@@ -160,6 +160,8 @@
 		B69C795514D3C416002C9735 /* BoardLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = B69C795414D3C416002C9735 /* BoardLayer.mm */; };
 		B69C795814D3C416002C9735 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = B69C795714D3C416002C9735 /* GLES-Render.mm */; };
 		B69C795B14D3C416002C9735 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C795A14D3C416002C9735 /* blocks.png */; };
+		B69C797514D3CE77002C9735 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C797414D3CE77002C9735 /* GameOverScene.m */; };
+		B69C797714D3CF97002C9735 /* SnakeHead_27x40.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -476,6 +478,9 @@
 		B69C795714D3C416002C9735 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		B69C795914D3C416002C9735 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		B69C795A14D3C416002C9735 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
+		B69C797314D3CE77002C9735 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
+		B69C797414D3CE77002C9735 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
+		B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SnakeHead_27x40.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -532,6 +537,7 @@
 		B69C778514D3C412002C9735 /* SnakeJam */ = {
 			isa = PBXGroup;
 			children = (
+				B69C797114D3CE66002C9735 /* Scenes */,
 				B69C794D14D3C416002C9735 /* AppDelegate.h */,
 				B69C794E14D3C416002C9735 /* AppDelegate.mm */,
 				B69C795014D3C416002C9735 /* RootViewController.h */,
@@ -551,6 +557,7 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */,
 				B69C778714D3C412002C9735 /* Default.png */,
 				B69C778914D3C412002C9735 /* fps_images.png */,
 				B69C778B14D3C412002C9735 /* Icon-72.png */,
@@ -1008,6 +1015,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B69C797114D3CE66002C9735 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				B69C797314D3CE77002C9735 /* GameOverScene.h */,
+				B69C797414D3CE77002C9735 /* GameOverScene.m */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1068,6 +1084,7 @@
 				B69C779614D3C412002C9735 /* Icon@2x.png in Resources */,
 				B69C779914D3C412002C9735 /* iTunesArtwork in Resources */,
 				B69C795B14D3C416002C9735 /* blocks.png in Resources */,
+				B69C797714D3CF97002C9735 /* SnakeHead_27x40.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1213,6 +1230,7 @@
 				B69C795214D3C416002C9735 /* RootViewController.m in Sources */,
 				B69C795514D3C416002C9735 /* BoardLayer.mm in Sources */,
 				B69C795814D3C416002C9735 /* GLES-Render.mm in Sources */,
+				B69C797514D3CE77002C9735 /* GameOverScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1312,6 +1330,7 @@
 				B69C796014D3C416002C9735 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
