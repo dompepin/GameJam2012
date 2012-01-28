@@ -148,7 +148,7 @@ const short kTagForPlanetSprite = 1;
 
         ccDrawLine(start, end);
     }
-    
+        
     for (CCSprite *planet in _planetArray) {        
         if (!planet.visible) continue;
        
@@ -246,7 +246,6 @@ const short kTagForPlanetSprite = 1;
 }
 
 #pragma mark - Private Methods
-
 //
 - (void)addBackground {
     CCSprite* background = [CCSprite spriteWithFile:@"Star_bg1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
@@ -284,7 +283,13 @@ const short kTagForPlanetSprite = 1;
                                         position:ccp(-planet.contentSize.width/2, actualY)];
     id actionMoveDone = [CCCallFuncN actionWithTarget:self
                                              selector:@selector(planetMoveFinished:)];
-    [planet runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+
+    actualDuration = (arc4random() % rangeDuration) + minDuration;
+    id rotate = [CCRotateBy actionWithDuration:actualDuration angle:720];
+    id actions = [CCSpawn actions:actionMove, rotate, nil];
+    id sequence = [CCSequence actions:actions, actionMoveDone, nil];
+    
+    [planet runAction:sequence];
 }
 
 //
@@ -393,7 +398,6 @@ const short kTagForPlanetSprite = 1;
 
             _snakeHead.position = actualTarget;
 
-
             // rotate the head
             CGFloat rotateAngle = -ccpToAngle(offset);
             float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
@@ -403,7 +407,6 @@ const short kTagForPlanetSprite = 1;
     }
 
     //_nextHeadingIndex = i;
-    
     NSMutableArray *newArray = [[NSMutableArray alloc] init];
     [newArray addObject:NSStringFromCGPoint(_snakeHead.position)];
     for (int j = i; j < [path count]; j++) {
@@ -420,8 +423,6 @@ const short kTagForPlanetSprite = 1;
     if (_snakeHead.position.x == _snakeHeading.x &&
             _snakeHead.position.y == _snakeHeading.y)
         return;
-
-   
 
     [self repositionHeadAlongTouchPath:(ccTime)time];
 
