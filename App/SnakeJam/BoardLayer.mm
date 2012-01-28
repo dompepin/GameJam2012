@@ -12,6 +12,7 @@
 #import "CCActionInterval.h"
 #import "SimpleAudioEngine.h"
 #import "GameOverScene.h"
+#import "CCActionInterval.h"
 
 // HelloWorldLayer implementation
 @interface BoardLayer ()
@@ -21,18 +22,19 @@
 
 
 @property(retain, nonatomic) CCSprite *snakeHead;
-
+@property(retain, nonatomic) NSMutableArray* snakeBody;
 
 @end
 
 @implementation BoardLayer
 
 NSMutableArray *_snakeBody;
-NSMutableArray *_projectiles;
 float _speed;
 
 
 @synthesize snakeHead = _snakeHead;
+@synthesize snakeBody = _snakeBody;
+
 
 + (CCScene *)scene {
     _speed = 200 / 1; //X pixel/seconds
@@ -109,8 +111,7 @@ float _speed;
         [self schedule:@selector(gameLogic:) interval:1.0];
         [self schedule:@selector(update:)];
 
-        _snakeBody = [[NSMutableArray alloc] init];
-        _projectiles = [[NSMutableArray alloc] init];
+        self.snakeBody = [[NSMutableArray alloc] init];
 
         self.isTouchEnabled = YES;
 
@@ -126,13 +127,9 @@ float _speed;
     // in this particular example nothing needs to be released.
     // cocos2d will automatically release all the children (Label)
 
-    [_snakeBody release];
-    _snakeBody = nil;
-    [_projectiles release];
-    _projectiles = nil;
+    [_snakeHead release], _snakeHead = nil;
+    [_snakeBody release], _snakeBody = nil;
 
-    // don't forget to call "super dealloc"
-    [_snakeHead release];
     [super dealloc];
 }
 
@@ -141,23 +138,30 @@ float _speed;
 
 // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
-    CGPoint location = [touch locationInView:[touch view]];
-    location = [[CCDirector sharedDirector] convertToGL:location];
+    CGPoint touchLocation = [touch locationInView:[touch view]];
+    touchLocation = [[CCDirector sharedDirector] convertToGL:touchLocation];
 
 
-    float distance = [self findDistanceBetween:_snakeHead.position andPoint:location];
+    float distance = [self findDistanceBetween:_snakeHead.position andPoint:touchLocation];
     float duration = distance / _speed;
-    [_snakeHead runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:location],
+    [_snakeHead runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:touchLocation],
                   [CCCallFuncN actionWithTarget:self selector:@selector(spriteMoveFinished:)],
                   nil]];
 
+    // rotate the sprite
+    CGPoint vector = ccpSub(touchLocation, _snakeHead.position);
+    CGFloat rotateAngle = -ccpToAngle(vector);
+    float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+    _snakeHead.rotation = angle;
 
-//    // What is the initial location of the snake?
+
+
+//    // What is the initial touchLocation of the snake?
 //    CGSize winSize = [[CCDirector sharedDirector] winSize];
 //
-//    // Determine offset of location to projectile
-//    int offX = location.x - _snakeHead.position.x;
-//    int offY = location.y - _snakeHead.position.y;
+//    // Determine offset of touchLocation to projectile
+//    int offX = touchLocation.x - _snakeHead.position.x;
+//    int offY = touchLocation.y - _snakeHead.position.y;
 //
 //    // Bail out if we are shooting down or backwards
 //
@@ -243,4 +247,6 @@ float _speed;
 - (float)findDistanceBetween:(CGPoint)point1 andPoint:(CGPoint)point2 {
      return sqrt(powf(point1.x - point2.x, 2.f) + powf(point1.y - point2.y, 2.f));
  }
+
+
 @end
