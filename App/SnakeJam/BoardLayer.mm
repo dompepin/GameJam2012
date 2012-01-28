@@ -20,12 +20,16 @@
 @property(retain, nonatomic) NSMutableArray* snakeBody;
 @property(retain, nonatomic) CCSprite *snakeHead;
 @property(retain, nonatomic) NSMutableArray* touchArray;
+@property(retain, nonatomic) NSMutableArray* planetArray;
 
 - (void)addSnakeBody;
 
 - (void)addSnakeHead:(CGSize)windowsSize;
 
 - (float)findDistanceBetween:(CGPoint)point1 andPoint:(CGPoint)point2;
+
+- (void)planetMoveFinished:(id)sender;
+
 
 @end
 
@@ -34,11 +38,15 @@
 float _snakeSpeed;
 CGPoint _previousSnakeHeadPosition;
 CGPoint _snakeHeading;
-const short pixelBetweenNodes = 2;
+const short kPixelBetweenSnakeNodes = 2;
+
+const short kTagForPlanetSprite = 1;
 
 @synthesize snakeHead = _snakeHead;
 @synthesize snakeBody = _snakeBody;
 @synthesize touchArray = _touchArray;
+@synthesize planetArray = _planetArray;
+
 
 + (CCScene *)scene {
     _snakeSpeed = 200 / 1; //X pixel/seconds
@@ -59,37 +67,36 @@ const short pixelBetweenNodes = 2;
 
 - (void)addPlanet {
 
-//    CCSprite *target = [CCSprite spriteWithFile:@"Target.png"
-//                                           rect:CGRectMake(0, 0, 27, 40)];
-//
-//    target.tag = 1;
-//    [_snakeBody addObject:target];
-//
-//    // Determine where to spawn the target along the Y axis
-//    CGSize winSize = [[CCDirector sharedDirector] winSize];
-//    int minY = target.contentSize.height/2;
-//    int maxY = winSize.height - target.contentSize.height/2;
-//    int rangeY = maxY - minY;
-//    int actualY = (arc4random() % rangeY) + minY;
-//
-//    // Create the target slightly off-screen along the right edge,
-//    // and along a random position along the Y axis as calculated above
-//    target.position = ccp(winSize.width + (target.contentSize.width/2), actualY);
-//    [self addChild:target];
-//
-//    // Determine speed of the target
-//    int minDuration = 2.0;
-//    int maxDuration = 4.0;
-//    int rangeDuration = maxDuration - minDuration;
-//    int actualDuration = (arc4random() % rangeDuration) + minDuration;
-//
-//    // Create the actions
-//    id actionMove = [CCMoveTo actionWithDuration:actualDuration
-//                                        position:ccp(-target.contentSize.width/2, actualY)];
-//    id actionMoveDone = [CCCallFuncN actionWithTarget:self
-//                                             selector:@selector(spriteMoveFinished:)];
-//    [target runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-//
+    CCSprite *target = [CCSprite spriteWithFile:@"Planet1_32x32.png"
+                                           rect:CGRectMake(0, 0, 32, 32)];
+
+    target.tag = kTagForPlanetSprite;
+    [_planetArray addObject:target];
+
+    // Determine where to spawn the target along the Y axis
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    int minY = target.contentSize.height/2;
+    int maxY = winSize.height - target.contentSize.height/2;
+    int rangeY = maxY - minY;
+    int actualY = (arc4random() % rangeY) + minY;
+
+    // Create the target slightly off-screen along the right edge,
+    // and along a random position along the Y axis as calculated above
+    target.position = ccp(winSize.width + (target.contentSize.width/2), actualY);
+    [self addChild:target];
+
+    // Determine speed of the target
+    int minDuration = 10.0;
+    int maxDuration = 30.0;
+    int rangeDuration = maxDuration - minDuration;
+    int actualDuration = (arc4random() % rangeDuration) + minDuration;
+
+    // Create the actions
+    id actionMove = [CCMoveTo actionWithDuration:actualDuration
+                                        position:ccp(-target.contentSize.width/2, actualY)];
+    id actionMoveDone = [CCCallFuncN actionWithTarget:self
+                                             selector:@selector(planetMoveFinished:)];
+    [target runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
 }
 
 - (void)gameLogic:(ccTime)dt {
@@ -111,7 +118,9 @@ const short pixelBetweenNodes = 2;
 
         self.touchArray =[[NSMutableArray alloc ] init];
 
-        [self schedule:@selector(gameLogic:) interval:1.0];
+        self.planetArray = [[NSMutableArray alloc ] init];
+
+        [self schedule:@selector(gameLogic:) interval:10];
         [self schedule:@selector(update:)];
 
         self.isTouchEnabled = YES;
@@ -158,14 +167,14 @@ const short pixelBetweenNodes = 2;
     [_snakeHead release], _snakeHead = nil;
     [_snakeBody release], _snakeBody = nil;
     [_touchArray release], _touchArray= nil;
+    [_planetArray release];
     [super dealloc];
 }
 
 #pragma mark - CCStandardTouchDelegate Members
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    BoardLayer *line = [BoardLayer node];
-    [self addChild: line];
+
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -196,11 +205,11 @@ const short pixelBetweenNodes = 2;
 - (void)addSnakeBody {
     CCSprite *snakeNode = [CCSprite spriteWithFile:@"SnakeBody_16x16.png" rect:CGRectMake(0, 0, 16, 16)];
     if ([_snakeBody count] == 0)        {
-        snakeNode.position = CGPointMake(_snakeHead.position.x - pixelBetweenNodes, _snakeHead.position.y);
+        snakeNode.position = CGPointMake(_snakeHead.position.x - kPixelBetweenSnakeNodes, _snakeHead.position.y);
     }
     else{
         CCSprite *bodyNode = [_snakeBody objectAtIndex:([_snakeBody count]-1)];
-        snakeNode.position = CGPointMake(bodyNode.position.x - pixelBetweenNodes, bodyNode.position.y);
+        snakeNode.position = CGPointMake(bodyNode.position.x - kPixelBetweenSnakeNodes, bodyNode.position.y);
     }
     [self.snakeBody addObject:snakeNode];
     [self addChild:snakeNode];
@@ -218,12 +227,20 @@ const short pixelBetweenNodes = 2;
  }
 
 // Occurs when the snake body finished moving
+- (void)planetMoveFinished:(id)sender {
+    CCSprite *sprite = (CCSprite *)sender;
+    [self removeChild:sprite cleanup:YES];
+     [_planetArray removeObject:sprite];
+}
+
+// Occurs when the snake body finished moving
 - (void)snakeBodyMoveFinished:(id)sender {
 
 }
 
 // Occurs when the snake head finished moving
 - (void)snakeHeadMoveFinished:(id)sender {
+
 
 }
 
