@@ -163,6 +163,7 @@
 		B69C797514D3CE77002C9735 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C797414D3CE77002C9735 /* GameOverScene.m */; };
 		B69C797714D3CF97002C9735 /* SnakeHead_27x40.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */; };
 		B69C797D14D3F732002C9735 /* SnakeBody_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */; };
+		B69C798814D416ED002C9735 /* Planet1_32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C798714D416ED002C9735 /* Planet1_32x32.png */; };
 		FEA8836514D3F21A00EB9215 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA8836414D3F21A00EB9215 /* MenuScene.m */; };
 		FEA8836A14D3F96000EB9215 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEA8836914D3F96000EB9215 /* play.png */; };
 /* End PBXBuildFile section */
@@ -485,6 +486,7 @@
 		B69C797414D3CE77002C9735 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SnakeHead_27x40.png; sourceTree = "<group>"; };
 		B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SnakeBody_16x16.png; sourceTree = "<group>"; };
+		B69C798714D416ED002C9735 /* Planet1_32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Planet1_32x32.png; sourceTree = "<group>"; };
 		FEA8836314D3F21A00EB9215 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FEA8836414D3F21A00EB9215 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
 		FEA8836914D3F96000EB9215 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Resources/play.png; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B69C798714D416ED002C9735 /* Planet1_32x32.png */,
 				B69C797C14D3F732002C9735 /* SnakeBody_16x16.png */,
 				FEA8836914D3F96000EB9215 /* play.png */,
 				B69C797614D3CF97002C9735 /* SnakeHead_27x40.png */,
@@ -1098,6 +1101,7 @@
 				B69C797714D3CF97002C9735 /* SnakeHead_27x40.png in Resources */,
 				B69C797D14D3F732002C9735 /* SnakeBody_16x16.png in Resources */,
 				FEA8836A14D3F96000EB9215 /* play.png in Resources */,
+				B69C798814D416ED002C9735 /* Planet1_32x32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
