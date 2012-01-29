@@ -21,7 +21,7 @@
 {
 @private
     NSMutableArray *_planetArray;
-    NSMutableArray *_testArray;
+    NSMutableArray *_newBodyToInsert;
 }
 +(CCScene *) scene;
 

@@ -20,7 +20,7 @@
 @property(retain, nonatomic) NSMutableArray* snakeBody;
 @property(retain, nonatomic) CCSprite *snakeHead;
 @property(retain, nonatomic) NSMutableArray* touchArray;
-@property(retain, nonatomic) NSMutableArray* testArray;
+@property(retain, nonatomic) NSMutableArray*newBodyToInsert;
 @property(retain, nonatomic) NSMutableArray* planetArray;
 
 - (void)gameLogic:(ccTime)dt;
@@ -62,7 +62,7 @@ const short kLerpConst = 0.6;
 @synthesize touchArray = _touchArray;
 @synthesize deleteArray = _deleteArray;
 @synthesize planetArray = _planetArray;
-@synthesize testArray = _testArray;
+@synthesize newBodyToInsert = _newBodyToInsert;
 
 
 // on "dealloc" you need to release all your retained objects
@@ -76,7 +76,7 @@ const short kLerpConst = 0.6;
     [_touchArray release], _touchArray= nil;
     [_deleteArray release], _deleteArray=nil;
     [_planetArray release];
-    [_testArray release];
+    [_newBodyToInsert release];
     [super dealloc];
 }
 
@@ -91,6 +91,7 @@ const short kLerpConst = 0.6;
         [self createSnakeHead:winSize];
 
         self.touchArray =[[NSMutableArray alloc ] init];
+        self.newBodyToInsert = [[NSMutableArray alloc] init];
 
 
         self.snakeBody = [[NSMutableArray alloc] init];
@@ -106,6 +107,7 @@ const short kLerpConst = 0.6;
         self.deleteArray =[[NSMutableArray alloc ] init];
 
         self.planetArray = [[NSMutableArray alloc ] init];
+        
 
         [self schedule:@selector(gameLogic:) interval:3];
         [self schedule:@selector(update:)];
@@ -145,18 +147,19 @@ const short kLerpConst = 0.6;
     glColor4ub(0, 0, 0, 255);
 
     //TODO: _nextHeadingIndex
-    for(int i = 0; i < [_touchArray count] -1; i++)
+    NSArray *tmpArray = [NSArray arrayWithArray:_touchArray];
+    for(int i = 0; i < [tmpArray count] -1; i++)
     {
-        CGPoint start = CGPointFromString([_touchArray objectAtIndex:i]);
-        CGPoint end = CGPointFromString([_touchArray objectAtIndex:i+1]);
+        CGPoint start = CGPointFromString([tmpArray objectAtIndex:i]);
+        CGPoint end = CGPointFromString([tmpArray objectAtIndex:i+1]);
 
         ccDrawLine(start, end);
     }
-        
-    for (CCSprite *planet in _planetArray) {        
+
+    for (CCSprite *planet in _planetArray) {
         if (!planet.visible) continue;
-       
-        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {  
+
+        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
 //            [_snakeHead runAction:[CCSequence actions:
 //                                   [CCBlink actionWithDuration:1.0 blinks:20],
 //                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
@@ -164,7 +167,7 @@ const short kLerpConst = 0.6;
             planet.visible = NO;
             [self addSnakeBody];
         }
-        
+
         // set this to yes for debug purposes
         BOOL drawBoundingBoxes=YES;
         if (drawBoundingBoxes) {
@@ -192,7 +195,6 @@ const short kLerpConst = 0.6;
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 
-    [_touchArray removeAllObjects];
     _nextHeadingIndex = 0;
 
 
@@ -203,12 +205,16 @@ const short kLerpConst = 0.6;
 
 
     _snakeHeading = touchLocation;
-    self.touchArray = [[NSMutableArray alloc] initWithCapacity:2];
+
+    NSMutableArray *tmpArray = [[NSMutableArray alloc] init];
+
     for (int k = 0; k < [_snakeBody count]; k++) {
-            [_touchArray addObject:NSStringFromCGPoint(((CCSprite *)[_snakeBody objectAtIndex:k]).position)];
+            [tmpArray addObject:NSStringFromCGPoint(((CCSprite *)[_snakeBody objectAtIndex:k]).position)];
         }
-    [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
-    [_touchArray addObject:NSStringFromCGPoint(touchLocation)];
+    [tmpArray addObject:NSStringFromCGPoint(_snakeHead.position)];
+    [tmpArray addObject:NSStringFromCGPoint(touchLocation)];
+
+    self.touchArray = tmpArray;
 
     // rotate the sprite
     CGPoint vector = ccpSub(touchLocation, _snakeHead.position);
@@ -229,7 +235,6 @@ const short kLerpConst = 0.6;
     oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
 
     [self.touchArray addObject:NSStringFromCGPoint(new_location)];
-    //[self.touchArray addObject:NSStringFromCGPoint(oldTouchLocation)];
 }
 
 //
@@ -305,10 +310,7 @@ const short kLerpConst = 0.6;
         snakeNode.position = CGPointMake(-1000, 345);
     }
 
-    [_snakeBody addObject:snakeNode];
-    [self addChild:snakeNode];
-    [self reorderChild:snakeNode z:1];
-    [_touchArray insertObject:NSStringFromCGPoint(snakeNode.position) atIndex:0];
+    [_newBodyToInsert addObject:snakeNode];
 }
 
 //
@@ -447,11 +449,13 @@ const short kLerpConst = 0.6;
 - (void)repositionBodyAlongTouchPath:(ccTime)time {
 
     // if the head stop moving
-    if ([_touchArray count] <= [_snakeBody count] + 1)
+    NSArray *path = [[NSArray alloc] initWithArray:_touchArray];
+
+    if ([path count] <= [_snakeBody count] + 1)
         return;
 
     float timeLeft = time;
-    NSArray *path = [[NSArray alloc] initWithArray:_touchArray];
+
 
     int i = [_snakeBody count] - 1; // skip the body, it will be calculated later
     CGPoint prevPoint = CGPointMake(CGPointFromString([path objectAtIndex:[_snakeBody count]]).x, CGPointFromString([path objectAtIndex:[_snakeBody count]]).y);
@@ -509,6 +513,19 @@ const short kLerpConst = 0.6;
 
 
 - (void)update:(ccTime)time {
+
+    if ([_newBodyToInsert count] > 0)
+    {
+        for (int i = 0; i < [_newBodyToInsert count]; i++) {
+            CCSprite *snakeNode = (CCSprite *)[_newBodyToInsert objectAtIndex:i];
+            [_snakeBody addObject:snakeNode];
+                        [self addChild:snakeNode];
+                        [self reorderChild:snakeNode z:1];
+
+            [_touchArray insertObject:NSStringFromCGPoint(snakeNode.position) atIndex:0];
+            [_newBodyToInsert removeAllObjects];
+        }
+    }
 
     if (_snakeHead.position.x == _snakeHeading.x &&
             _snakeHead.position.y == _snakeHeading.y)
