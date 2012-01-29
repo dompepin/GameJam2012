@@ -75,7 +75,7 @@ const short kPixelBetweenSnakeNodes = 45;
 const short kTagForPlanetSprite = 1;
 const short kLerpConst = 0.6;
 
-const short kPlanetsPerLevel = 10;
+const short kPlanetsPerLevel = 15;
 
 @synthesize snakeHead = _snakeHead;
 @synthesize snakeBody = _snakeBody;
@@ -129,7 +129,7 @@ const short kPlanetsPerLevel = 10;
         [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
         [_touchArray addObject:NSStringFromCGPoint(CGPointMake(winSize.width, winSize.height / 2))];
 
-        [self schedule:@selector(gameLogic:) interval:1];
+        [self schedule:@selector(gameLogic:) interval:1.5];
         [self schedule:@selector(update:)];
 
         self.isTouchEnabled = YES;
@@ -143,23 +143,30 @@ const short kPlanetsPerLevel = 10;
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"dragon.mp3.caf"];
 
         [UIFont fontWithName:@"Nevis.ttf" size:24];
-        self.planetLeftLabel = [CCLabelTTF labelWithString:nil fontName:@"Nevis" fontSize:24];
 
-        _planetLeftLabel.color = ccc3(255, 255, 255);
-        _planetLeftLabel.position = ccp(winSize.width - 120, winSize.height - 44);
-
-        self.livesLabel = [CCLabelTTF labelWithString:nil fontName:@"Nevis" fontSize:24];
-        _livesLabel.color = ccc3(255, 255, 255);
-        _livesLabel.position = ccp(winSize.width - 120, winSize.height - 88);
-
-        self.levelLabel = [CCLabelTTF labelWithString:nil fontName:@"Nevis" fontSize:24];
+        self.levelLabel = [CCLabelTTF labelWithString:nil fontName:@"Nevis" fontSize:18];
         _levelLabel.color = ccc3(255, 255, 255);
-        _levelLabel.position = ccp(winSize.width - 120, winSize.height - 132);
+        _levelLabel.position = ccp(winSize.width - 140, winSize.height - 33);
+
+        self.planetLeftLabel = [CCLabelTTF labelWithString:nil fontName:@"Nevis" fontSize:18];
+        _planetLeftLabel.color = ccc3(255, 255, 255);
+        _planetLeftLabel.position = ccp(winSize.width - 140, winSize.height - 53);
+
+        self.livesLabel = [CCLabelTTF labelWithString:nil fontName:@"Nevis" fontSize:18];
+        _livesLabel.color = ccc3(255, 255, 255);
+        _livesLabel.position = ccp(winSize.width - 140, winSize.height - 73);
+
+
 
         background1 = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
         background1.position = ccp(1024 / 2, 768 / 2);
         [self addChild:background1 z:-1];
-        
+
+
+        CCSprite* hudBackground = [CCSprite spriteWithFile:@"HUD_FINAL.png" rect:CGRectMake(0, 0, 100, 63)];
+        hudBackground.position = ccp(1024 - 70, 768 - 52);
+        [self addChild:hudBackground z:+3];
+
         [self addChild:_planetLeftLabel z:+3];
         [self addChild:_livesLabel z:+3];
         [self addChild:_levelLabel z:+3];
@@ -261,9 +268,9 @@ const short kPlanetsPerLevel = 10;
 }
 
 - (void)draw {
-    [_planetLeftLabel setString:[NSString stringWithFormat:@"PLANETS LEFT : %d", _planetLeft]];
-    [_livesLabel setString:[NSString stringWithFormat:@"LIVES                : %d", _livesLeft]];
-    [_levelLabel setString:[NSString stringWithFormat:@"LEVEL                : %d", _level]];
+    [_planetLeftLabel setString:[NSString stringWithFormat:@"%d", _planetLeft]];
+    [_livesLabel setString:[NSString stringWithFormat:@"%d", _livesLeft]];
+    [_levelLabel setString:[NSString stringWithFormat:@"%d", _level]];
 
     if (_updating)
         return;
