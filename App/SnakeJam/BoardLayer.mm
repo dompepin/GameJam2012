@@ -50,7 +50,8 @@
 @end
 
 @implementation BoardLayer
-
+    
+CCSprite *background;
 float _snakeSpeed;
 CGPoint _previousSnakeHeadPosition;
 CGPoint _snakeHeading;
@@ -107,8 +108,6 @@ const short kLerpConst = 0.6;
 
         CGSize winSize = [[CCDirector sharedDirector] winSize];
 
-        [self addBackground];
-
         [self createSnakeHead:winSize];
 
         self.touchArray = [[NSMutableArray alloc] init];
@@ -132,6 +131,8 @@ const short kLerpConst = 0.6;
         self.isTouchEnabled = YES;
         _nextHeadingIndex = 0;
         _planetNum = 0;
+        _planetLeft = 5;
+        _livesLeft = 5;
         _level = 1;
 
         // Play background music
@@ -151,6 +152,9 @@ const short kLerpConst = 0.6;
         _levelLabel.color = ccc3(255, 255, 255);
         _levelLabel.position = ccp(winSize.width - 120, winSize.height - 132);
 
+        background = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+        background.position = ccp(1024 / 2, 768 / 2);
+        [self addChild:background z:-1];
         [self addChild:_planetLeftLabel z:+3];
         [self addChild:_livesLabel z:+3];
         [self addChild:_levelLabel z:+3];
@@ -177,27 +181,33 @@ const short kLerpConst = 0.6;
 - (void)resetParameters {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
 
+    for (int i=0; i<[_snakeBody count]; i++) {
+        CCSprite *snakeNodeSprite = (CCSprite *) [_snakeBody objectAtIndex:i];
+        [self removeChild:snakeNodeSprite cleanup:YES];
+    } 
+    [self.snakeBody removeAllObjects];
     [self.touchArray removeAllObjects];
     [self.newBodyToInsert removeAllObjects];
-    [self.snakeBody removeAllObjects];
-    [self.planetArray removeAllObjects];
-
+    [self addSnakeBody];
+    
     // add startup path
     [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
     [_touchArray addObject:NSStringFromCGPoint(CGPointMake(winSize.width, winSize.height / 2))];
 
     _nextHeadingIndex = 0;
-
-    _level++;
 }
 
 - (void)levelUp {
-    CCSprite *background;
-
     // reset arrays
-    //[self resetParameters];
-
-    switch (_level) {
+    [self resetParameters];
+    
+    int level = (_level%3)+1;
+    switch (level) {
+        case 1:
+            background = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+            background.position = ccp(1024 / 2, 768 / 2);
+            [self addChild:background z:-1];
+            break;            
         case 2:
             background = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
             background.position = ccp(1024 / 2, 768 / 2);
@@ -240,12 +250,9 @@ const short kLerpConst = 0.6;
             [[SimpleAudioEngine sharedEngine] playEffect:@"WaterPlanet.mp3"];
                 break;
         }
-
-
 }
 
 - (void)draw {
-
     [_planetLeftLabel setString:[NSString stringWithFormat:@"PLANETS LEFT : %d", _planetLeft]];
     [_livesLabel setString:[NSString stringWithFormat:@"LIVES                : %d", _livesLeft]];
     [_levelLabel setString:[NSString stringWithFormat:@"LEVEL                : %d", _level]];
@@ -278,8 +285,6 @@ const short kLerpConst = 0.6;
             [self playEatingPlanetSound:planet];
             [self addSnakeBody];
             --_planetLeft;
-            if (_planetLeft <= 0)
-                [self levelUp];
         }
 
 //        for (int i = 0; i < [planetsToDelete count]; i++) {
@@ -291,7 +296,7 @@ const short kLerpConst = 0.6;
 //        }
 
         // set this to yes for debug purposes
-        BOOL drawBoundingBoxes = YES;
+        BOOL drawBoundingBoxes = NO;
         if (drawBoundingBoxes) {
             CGRect rect = _snakeHead.boundingBox;
             CGPoint vertices[4] = {
@@ -311,6 +316,10 @@ const short kLerpConst = 0.6;
             };
             ccDrawPoly(vertices1, 4, YES);
         }
+    }
+    
+    if (_planetLeft <= 0) {
+        [self levelUp];
     }
     _updating = false;
 }
@@ -365,7 +374,6 @@ const short kLerpConst = 0.6;
     CCSprite *target = [self getPlanet:(_planetNum % 3)];
 
     int random = (arc4random() % 2) + 0;
-
     if (random == 1) {
         [self addXPlanet:target];
     }
@@ -376,13 +384,6 @@ const short kLerpConst = 0.6;
 }
 
 #pragma mark - Private Methods
-//
-- (void)addBackground {
-    CCSprite *background = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
-    background.position = ccp(1024 / 2, 768 / 2);
-    [self addChild:background z:-1];
-}
-
 //
 - (void)addYPlanet:(CCSprite *)planet; {
 
@@ -461,7 +462,6 @@ const short kLerpConst = 0.6;
     [planet runAction:sequence];
 }
 
-
 //
 - (void)addSnakeBody {
     CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body_block_round_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
@@ -524,7 +524,6 @@ const short kLerpConst = 0.6;
         [[CCDirector sharedDirector] replaceScene:gameOverScene];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:nil];
     }
-
 }
 
 // Occurs when the snake body finished moving
@@ -617,13 +616,10 @@ const short kLerpConst = 0.6;
     }
     
     self.touchArray = newArray;
-    
 }
-
 
 -(void) repositionBodyAlongTouchPath:(ccTime) time
 {
-    
     // if the head stop moving
     NSArray *path = [[NSArray alloc] initWithArray:_touchArray];
     
@@ -677,51 +673,45 @@ const short kLerpConst = 0.6;
             }
         }
     }
-    
-    
 }
 
-    -(void) update:(ccTime) time
-    {
-
-        if (_updating) {
-            _cTime += time;
-            return;
-        }
-
-        _updating = true;
-
-        if ([_newBodyToInsert count] > 0) {
-            for (int i = 0; i < [_newBodyToInsert count]; i++) {
-                CCSprite *snakeNode = (CCSprite *) [_newBodyToInsert objectAtIndex:i];
-                [_snakeBody insertObject:snakeNode atIndex:0];
-                [self addChild:snakeNode];
-                [self reorderChild:snakeNode z:1];
-
-                [_touchArray insertObject:NSStringFromCGPoint(snakeNode.position) atIndex:0];
-                [_newBodyToInsert removeAllObjects];
-            }
-        }
-
-        if (_snakeHead.position.x == _snakeHeading.x &&
-                _snakeHead.position.y == _snakeHeading.y)
-            return;
-
-        [self repositionHeadAlongTouchPath:(ccTime) time];
-        [self repositionBodyAlongTouchPath:(ccTime) time];
-
-        _updating = false;
-
+-(void) update:(ccTime) time
+{
+    if (_updating) {
+        _cTime += time;
+        return;
     }
 
-    //increase the constant if I want it to be smoother
-    -(CGPoint) lerpWithCurrentVector:(CGPoint) currentVector
-    andDestVector:(CGPoint) destVector
-    andConst:(float) konst
-    {
-        return currentVector;
+    _updating = true;
+
+    if ([_newBodyToInsert count] > 0) {
+        for (int i = 0; i < [_newBodyToInsert count]; i++) {
+            CCSprite *snakeNode = (CCSprite *) [_newBodyToInsert objectAtIndex:i];
+            [_snakeBody insertObject:snakeNode atIndex:0];
+            [self addChild:snakeNode];
+            [self reorderChild:snakeNode z:1];
+
+            [_touchArray insertObject:NSStringFromCGPoint(snakeNode.position) atIndex:0];
+            [_newBodyToInsert removeAllObjects];
+        }
+    }
+
+    if (_snakeHead.position.x == _snakeHeading.x &&
+            _snakeHead.position.y == _snakeHeading.y)
+        return;
+
+    [self repositionHeadAlongTouchPath:(ccTime) time];
+    [self repositionBodyAlongTouchPath:(ccTime) time];
+
+    _updating = false;
+}
+
+//increase the constant if I want it to be smoother
+-(CGPoint) lerpWithCurrentVector:(CGPoint) currentVector andDestVector:(CGPoint) destVector andConst:(float) konst
+{
+    return currentVector;
 //    float a = 1 - konst;
 //    return ccpAdd(ccpMult(currentVector, konst),  ccpMult(destVector, a));
-    }
+}
 
-    @end
+@end
