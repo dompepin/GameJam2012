@@ -13,6 +13,7 @@
 		B649DC2514D536B5003FA4C6 /* OmNom3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC1F14D536B5003FA4C6 /* OmNom3.mp3 */; };
 		B649DC2614D536B5003FA4C6 /* RockPlanet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */; };
 		B649DC2714D536B5003FA4C6 /* WaterPlanet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */; };
+		B649DC2A14D5CB8D003FA4C6 /* nevis.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2914D5CB8D003FA4C6 /* nevis.ttf */; };
 		B69C777614D3C412002C9735 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777514D3C412002C9735 /* QuartzCore.framework */; };
 		B69C777814D3C412002C9735 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777714D3C412002C9735 /* OpenGLES.framework */; };
 		B69C777A14D3C412002C9735 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777914D3C412002C9735 /* OpenAL.framework */; };
@@ -194,6 +195,7 @@
 		B649DC1F14D536B5003FA4C6 /* OmNom3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = OmNom3.mp3; sourceTree = "<group>"; };
 		B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = RockPlanet.mp3; sourceTree = "<group>"; };
 		B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = WaterPlanet.mp3; sourceTree = "<group>"; };
+		B649DC2914D5CB8D003FA4C6 /* nevis.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = nevis.ttf; sourceTree = "<group>"; };
 		B69C777114D3C412002C9735 /* SnakeJam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnakeJam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C777514D3C412002C9735 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B69C777714D3C412002C9735 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -610,31 +612,23 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B649DC1C14D536B5003FA4C6 /* Die.mp3 */,
-				B649DC1D14D536B5003FA4C6 /* GasPlanet.mp3 */,
-				B649DC1E14D536B5003FA4C6 /* Menu.mp3 */,
-				B649DC1F14D536B5003FA4C6 /* OmNom3.mp3 */,
-				B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */,
-				B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */,
-				FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */,
-				FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */,
-				FE9570ED14D4FFBA00FF1030 /* dragon.mp3.caf */,
-				FE9570EE14D4FFBA00FF1030 /* menu.png */,
+				B649DC2914D5CB8D003FA4C6 /* nevis.ttf */,
 				FE9570F114D4FFBB00FF1030 /* Background_level1_1024x768.png */,
 				FE9570F714D501BB00FF1030 /* Background_level2_1024x768.png */,
 				FE9570FB14D502BF00FF1030 /* Background_level3_1024x768.png */,
-				FE9570F914D5022E00FF1030 /* Head_Short_129x82.png */,
-				FEAEA70A14D43807005B5397 /* Head_Long_129x82.png */,
-				B6FC4BF114D4736100BF83F3 /* Head_Long2_129x82.png */,
+				B69C795A14D3C416002C9735 /* blocks.png */,
 				FE9570E314D4FCC400FF1030 /* Body_block_round_40x35.png */,
+				FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */,
 				FE9570E414D4FCC400FF1030 /* Body_block_rounded_40x35.png */,
-				FE9570E614D4FCC500FF1030 /* Body_blocks_rounded_61x53.png */,
 				FEAEA70814D43807005B5397 /* Body_block_square_61x53.png */,
-				FE9570E114D4A56900FF1030 /* Planet_Water_81x81.png */,
-				FEAEA70914D43807005B5397 /* Planet_Gas_82x84.png */,
-				FEAEA70B14D43807005B5397 /* Planet_Rocky_84x85.png */,
-				FEA8836914D3F96000EB9215 /* play.png */,
+				FE9570E614D4FCC500FF1030 /* Body_blocks_rounded_61x53.png */,
+				B649DC1C14D536B5003FA4C6 /* Die.mp3 */,
+				FE9570ED14D4FFBA00FF1030 /* dragon.mp3.caf */,
 				B69C778914D3C412002C9735 /* fps_images.png */,
+				B649DC1D14D536B5003FA4C6 /* GasPlanet.mp3 */,
+				B6FC4BF114D4736100BF83F3 /* Head_Long2_129x82.png */,
+				FEAEA70A14D43807005B5397 /* Head_Long_129x82.png */,
+				FE9570F914D5022E00FF1030 /* Head_Short_129x82.png */,
 				B69C778B14D3C412002C9735 /* Icon-72.png */,
 				B69C778D14D3C412002C9735 /* Icon-Small-50.png */,
 				B69C778F14D3C412002C9735 /* Icon-Small.png */,
@@ -643,7 +637,16 @@
 				B69C779514D3C412002C9735 /* Icon@2x.png */,
 				B69C779714D3C412002C9735 /* Info.plist */,
 				B69C779814D3C412002C9735 /* iTunesArtwork */,
-				B69C795A14D3C416002C9735 /* blocks.png */,
+				B649DC1E14D536B5003FA4C6 /* Menu.mp3 */,
+				FE9570EE14D4FFBA00FF1030 /* menu.png */,
+				FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */,
+				B649DC1F14D536B5003FA4C6 /* OmNom3.mp3 */,
+				FEAEA70914D43807005B5397 /* Planet_Gas_82x84.png */,
+				FEAEA70B14D43807005B5397 /* Planet_Rocky_84x85.png */,
+				FE9570E114D4A56900FF1030 /* Planet_Water_81x81.png */,
+				FEA8836914D3F96000EB9215 /* play.png */,
+				B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */,
+				B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1184,6 +1187,7 @@
 				B649DC2514D536B5003FA4C6 /* OmNom3.mp3 in Resources */,
 				B649DC2614D536B5003FA4C6 /* RockPlanet.mp3 in Resources */,
 				B649DC2714D536B5003FA4C6 /* WaterPlanet.mp3 in Resources */,
+				B649DC2A14D5CB8D003FA4C6 /* nevis.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
