@@ -714,7 +714,7 @@ const short kLerpConst = 0.6;
 
     }
 
-//increass the constant if I want it to be smoother
+    //increase the constant if I want it to be smoother
     -(CGPoint) lerpWithCurrentVector:(CGPoint) currentVector
     andDestVector:(CGPoint) destVector
     andConst:(float) konst
