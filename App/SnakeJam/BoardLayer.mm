@@ -196,7 +196,6 @@ const short kLerpConst = 0.6;
         if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
             planet.visible = NO;
             [self addSnakeBody];
-            [self levelUp];
         }
 
         // set this to yes for debug purposes
@@ -313,7 +312,7 @@ const short kLerpConst = 0.6;
                                              selector:@selector(planetMoveFinished:)];
 
     actualDuration = (arc4random() % rangeDuration) + minDuration;
-    id rotate = [CCRotateBy actionWithDuration:actualDuration angle:720];
+    id rotate = [CCRotateBy actionWithDuration:actualDuration angle:3000];
     id actions = [CCSpawn actions:actionMove, rotate, nil];
     id sequence = [CCSequence actions:actions, actionMoveDone, nil];
     
