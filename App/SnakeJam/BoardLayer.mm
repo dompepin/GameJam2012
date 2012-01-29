@@ -171,7 +171,7 @@ const short kLerpConst = 0.6;
         }
 
         // set this to yes for debug purposes
-        BOOL drawBoundingBoxes=NO;
+        BOOL drawBoundingBoxes=YES;
         if (drawBoundingBoxes) {
             CGRect rect = _snakeHead.boundingBox;
             CGPoint vertices[4]={
@@ -256,7 +256,7 @@ const short kLerpConst = 0.6;
 #pragma mark - Private Methods
 //
 - (void)addBackground {
-    CCSprite* background = [CCSprite spriteWithFile:@"Star_bg1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+    CCSprite* background = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
     background.position = ccp(1024/2,768/2);
     [self addChild:background z:-1];
 }
@@ -302,7 +302,7 @@ const short kLerpConst = 0.6;
 
 //
 - (void)addSnakeBody {
-    CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body blocks_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
+    CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body_block_round_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
 
     if ([_snakeBody count] > 0)
     {
@@ -317,7 +317,7 @@ const short kLerpConst = 0.6;
 
 //
 - (void)createSnakeHead:(CGSize)windowsSize  {
-    self.snakeHead = [CCSprite spriteWithFile:@"Head2_129x82.png" rect:CGRectMake(0, 0, 129, 82)];
+    self.snakeHead = [CCSprite spriteWithFile:@"Head_Short_129x82.png" rect:CGRectMake(0, 0, 129, 82)];
     _snakeHead.position = ccp(_snakeHead.contentSize.width / 2, windowsSize.height / 2);
     _previousSnakeHeadPosition = _snakeHead.position;
 }
@@ -330,16 +330,16 @@ const short kLerpConst = 0.6;
 - (CCSprite*)getPlanet:(int)planetID {
     switch (planetID) {
         case 0:
-            return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
+            return [CCSprite spriteWithFile:@"Planet_Gas_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
             break;
         case 1:
-            return [CCSprite spriteWithFile:@"WaterPlanet_81x81.png" rect:CGRectMake(0, 0, 81, 81)];
+            return [CCSprite spriteWithFile:@"Planet_Water_81x81.png" rect:CGRectMake(0, 0, 81, 81)];
             break;
         case 2:
-            return [CCSprite spriteWithFile:@"RockyPlanet_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
+            return [CCSprite spriteWithFile:@"Planet_Rocky_84x85.png" rect:CGRectMake(0, 0, 84, 85)];
             break;
         default:
-            return [CCSprite spriteWithFile:@"GasPlanet_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
+            return [CCSprite spriteWithFile:@"Planet_Gas_82x84.png" rect:CGRectMake(0, 0, 82, 84)];
             break;
     }
 }
