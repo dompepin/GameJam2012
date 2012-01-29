@@ -297,7 +297,7 @@ const short kLerpConst = 0.6;
 
 //
 - (void)addSnakeBody {
-    CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body blocks_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
+    CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body_blocks_round_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
 
     if ([_snakeBody count] > 0)
     {
@@ -315,7 +315,7 @@ const short kLerpConst = 0.6;
 
 //
 - (void)createSnakeHead:(CGSize)windowsSize  {
-    self.snakeHead = [CCSprite spriteWithFile:@"Head2_129x82.png" rect:CGRectMake(0, 0, 129, 82)];
+    self.snakeHead = [CCSprite spriteWithFile:@"Short_Head_129x82.png" rect:CGRectMake(0, 0, 129, 82)];
     _snakeHead.position = ccp(_snakeHead.contentSize.width / 2, windowsSize.height / 2);
     _previousSnakeHeadPosition = _snakeHead.position;
 }
