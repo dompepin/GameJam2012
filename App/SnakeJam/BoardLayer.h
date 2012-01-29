@@ -22,6 +22,9 @@
 @private
     NSMutableArray *_planetArray;
     NSMutableArray *_newBodyToInsert;
+    CCLabelTTF *_planetLeftLabel;
+    CCLabelTTF *_levelLabel;
+    CCLabelTTF *_livesLabel;
 }
 +(CCScene *) scene;
 
