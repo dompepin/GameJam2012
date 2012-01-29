@@ -72,6 +72,8 @@ const short kPixelBetweenSnakeNodes = 45;
 const short kTagForPlanetSprite = 1;
 const short kLerpConst = 0.6;
 
+const short kPlanetsPerLevel = 10;
+
 @synthesize snakeHead = _snakeHead;
 @synthesize snakeBody = _snakeBody;
 @synthesize touchArray = _touchArray;
@@ -115,9 +117,6 @@ const short kLerpConst = 0.6;
         self.snakeBody = [[NSMutableArray alloc] init];
         self.planetArray = [[NSMutableArray alloc] init];
 
-        // adding the snake head after the body so that it renders on top
-        [self addSnakeBody];
-        [self addSnakeBody];
         [self addChild:_snakeHead];
         [self reorderChild:_snakeHead z:2];
 
@@ -125,13 +124,13 @@ const short kLerpConst = 0.6;
         [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
         [_touchArray addObject:NSStringFromCGPoint(CGPointMake(winSize.width, winSize.height / 2))];
 
-        [self schedule:@selector(gameLogic:) interval:3];
+        [self schedule:@selector(gameLogic:) interval:1];
         [self schedule:@selector(update:)];
 
         self.isTouchEnabled = YES;
         _nextHeadingIndex = 0;
         _planetNum = 0;
-        _planetLeft = 5;
+        _planetLeft = kPlanetsPerLevel;
         _livesLeft = 5;
         _level = 1;
 
@@ -188,11 +187,9 @@ const short kLerpConst = 0.6;
     [self.snakeBody removeAllObjects];
     [self.touchArray removeAllObjects];
     [self.newBodyToInsert removeAllObjects];
-    [self addSnakeBody];
     
     // add startup path
     [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
-    [_touchArray addObject:NSStringFromCGPoint(CGPointMake(winSize.width, winSize.height / 2))];
 
     _nextHeadingIndex = 0;
 }
@@ -200,31 +197,31 @@ const short kLerpConst = 0.6;
 - (void)levelUp {
     // reset arrays
     [self resetParameters];
-    
-    int level = (_level%3)+1;
-    switch (level) {
-        case 1:
-            background = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
-            background.position = ccp(1024 / 2, 768 / 2);
-            [self addChild:background z:-1];
-            break;            
-        case 2:
-            background = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
-            background.position = ccp(1024 / 2, 768 / 2);
-            [self addChild:background z:-1];
-            break;
-        case 3:
-            background = [CCSprite spriteWithFile:@"Background_level3_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
-            background.position = ccp(1024 / 2, 768 / 2);
-            [self addChild:background z:-1];
-            break;
-        default:
-            // you win!
-            break;
-    }
+//    
+//    int level = (_level%3)+1;
+//    switch (level) {
+//        case 1:
+//            background = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+//            background.position = ccp(1024 / 2, 768 / 2);
+//            [self addChild:background z:-1];
+//            break;            
+//        case 2:
+//            background = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+//            background.position = ccp(1024 / 2, 768 / 2);
+//            [self addChild:background z:-1];
+//            break;
+//        case 3:
+//            background = [CCSprite spriteWithFile:@"Background_level3_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+//            background.position = ccp(1024 / 2, 768 / 2);
+//            [self addChild:background z:-1];
+//            break;
+//        default:
+//            // you win!
+//            break;
+//    }
 
     _level++;
-    _planetLeft = 5;
+    _planetLeft = kPlanetsPerLevel;
     minYDuration = minYDuration * 0.75;
     maxYDuration = maxYDuration * 0.75;
     _snakeSpeed = _snakeSpeed * 1.25;
@@ -470,7 +467,7 @@ const short kLerpConst = 0.6;
         snakeNode.position = ((CCSprite *) [_snakeBody objectAtIndex:0]).position;
     }
     else {
-        snakeNode.position = CGPointMake(-1000, 345);
+        snakeNode.position = _snakeHead.position;
     }
 
     [_newBodyToInsert addObject:snakeNode];
