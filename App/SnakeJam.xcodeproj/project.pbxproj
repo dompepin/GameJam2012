@@ -173,6 +173,7 @@
 		FE9570FA14D5022F00FF1030 /* Head_Short_129x82.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570F914D5022E00FF1030 /* Head_Short_129x82.png */; };
 		FE9570FC14D502BF00FF1030 /* Background_level3_1024x768.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570FB14D502BF00FF1030 /* Background_level3_1024x768.png */; };
 		FE9570FE14D5037B00FF1030 /* Body_block_round_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */; };
+		FE95710014D519FC00FF1030 /* Menu_button_345x75.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */; };
 		FEA8836514D3F21A00EB9215 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA8836414D3F21A00EB9215 /* MenuScene.m */; };
 		FEA8836A14D3F96000EB9215 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEA8836914D3F96000EB9215 /* play.png */; };
 		FEAEA70D14D43808005B5397 /* Body_block_square_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70814D43807005B5397 /* Body_block_square_61x53.png */; };
@@ -509,6 +510,7 @@
 		FE9570F914D5022E00FF1030 /* Head_Short_129x82.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Head_Short_129x82.png; path = Resources/Head_Short_129x82.png; sourceTree = "<group>"; };
 		FE9570FB14D502BF00FF1030 /* Background_level3_1024x768.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background_level3_1024x768.png; path = Resources/Background_level3_1024x768.png; sourceTree = "<group>"; };
 		FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Body_block_round_61x53.png; path = Resources/Body_block_round_61x53.png; sourceTree = "<group>"; };
+		FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Menu_button_345x75.png; path = Resources/Menu_button_345x75.png; sourceTree = "<group>"; };
 		FEA8836314D3F21A00EB9215 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FEA8836414D3F21A00EB9215 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
 		FEA8836914D3F96000EB9215 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Resources/play.png; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */,
 				FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */,
 				FE9570ED14D4FFBA00FF1030 /* dragon.mp3 */,
 				FE9570EE14D4FFBA00FF1030 /* menu.png */,
@@ -1154,6 +1157,7 @@
 				FE9570FA14D5022F00FF1030 /* Head_Short_129x82.png in Resources */,
 				FE9570FC14D502BF00FF1030 /* Background_level3_1024x768.png in Resources */,
 				FE9570FE14D5037B00FF1030 /* Body_block_round_61x53.png in Resources */,
+				FE95710014D519FC00FF1030 /* Menu_button_345x75.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
