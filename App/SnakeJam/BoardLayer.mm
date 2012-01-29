@@ -52,11 +52,10 @@ CGPoint _snakeHeading;
 NSUInteger _nextHeadingIndex;
 int _planetNum;
 
-const short kPixelBetweenHeadAndBody = 129 / 2;
 const short kPixelBetweenSnakeNodes = 45;
 
 const short kTagForPlanetSprite = 1;
-const short kLerpConst = 0.7;
+const short kLerpConst = 0.6;
 
 @synthesize snakeHead = _snakeHead;
 @synthesize snakeBody = _snakeBody;
@@ -97,8 +96,8 @@ const short kLerpConst = 0.7;
         self.snakeBody = [[NSMutableArray alloc] init];
         [self addSnakeBody];
         [self addSnakeBody];
-        [self addSnakeBody];
-        [self addSnakeBody];
+//        [self addSnakeBody];
+//        [self addSnakeBody];
 
         // adding the snake head after the body so that it renders on top
         [self addChild:_snakeHead];
@@ -110,7 +109,7 @@ const short kLerpConst = 0.7;
 
         self.planetArray = [[NSMutableArray alloc ] init];
 
-        [self schedule:@selector(gameLogic:) interval:10];
+        [self schedule:@selector(gameLogic:) interval:3];
         [self schedule:@selector(update:)];
 
         self.isTouchEnabled = YES;
@@ -160,12 +159,12 @@ const short kLerpConst = 0.7;
         if (!planet.visible) continue;
        
         if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {  
-            [_snakeHead runAction:[CCSequence actions:
-                                   [CCBlink actionWithDuration:1.0 blinks:20],
-                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
-                                   nil]];  
+//            [_snakeHead runAction:[CCSequence actions:
+//                                   [CCBlink actionWithDuration:1.0 blinks:20],
+//                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
+//                                   nil]];
             planet.visible = NO;
-            //[self addSnakeBody];             
+            [self addSnakeBody];
         }
         
         // set this to yes for debug purposes
@@ -212,12 +211,6 @@ const short kLerpConst = 0.7;
         }
     [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
     [_touchArray addObject:NSStringFromCGPoint(touchLocation)];
-
-//    float distance = [self findDistanceBetween:_snakeHead.position andPoint:touchLocation];
-//    float duration = distance / _snakeSpeed;
-//    [_snakeHead runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:touchLocation],
-//                  [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadMoveFinished:)],
-//                  nil]];
 
     // rotate the sprite
     CGPoint vector = ccpSub(touchLocation, _snakeHead.position);
@@ -305,18 +298,19 @@ const short kLerpConst = 0.7;
 //
 - (void)addSnakeBody {
     CCSprite *snakeNode = [CCSprite spriteWithFile:@"Body blocks_61x53.png" rect:CGRectMake(0, 0, 61, 53)];
-//    if ([_snakeBody count] == 0)        {
-//        snakeNode.position = CGPointMake(_snakeHead.position.x + kPixelBetweenSnakeNodes, _snakeHead.position.y + 100);
-//    }
-//    else{
-//        CCSprite *bodyNode = [_snakeBody objectAtIndex:([_snakeBody count]-1)];
-//        snakeNode.position = CGPointMake(bodyNode.position.x - kPixelBetweenSnakeNodes, bodyNode.position.y);
-//    }
-    snakeNode.position = CGPointMake(-1000, 345);
+
+    if ([_snakeBody count] > 0)
+    {
+        snakeNode.position = ((CCSprite *)[_snakeBody objectAtIndex:0]).position;
+    }
+    else {
+        snakeNode.position = CGPointMake(-1000, 345);
+    }
+
     [_snakeBody addObject:snakeNode];
     [self addChild:snakeNode];
     [self reorderChild:snakeNode z:1];
-    [_touchArray insertObject:NSStringFromCGPoint(CGPointMake(-1000, 345)) atIndex:0]; // create the object off the screen
+    [_touchArray insertObject:NSStringFromCGPoint(snakeNode.position) atIndex:0];
 }
 
 //
@@ -373,7 +367,7 @@ const short kLerpConst = 0.7;
 
 
 - (void)repositionHeadAlongTouchPath:(ccTime)time {
-   ccTime timeLeft = time;
+    ccTime timeLeft = time;
 
     CGPoint prevHeadPosition = _snakeHead.position;
     NSArray *path = [[NSArray alloc] initWithArray:_touchArray];
@@ -384,21 +378,21 @@ const short kLerpConst = 0.7;
     int i = [_snakeBody count]; // skip the body, it will be calculated later
 
     CGPoint prevPoint = CGPointMake(CGPointFromString([path objectAtIndex:i]).x, CGPointFromString([path objectAtIndex:i]).y);
-    for (++i ; i < [path count]; i++) {
+    for (++i; i < [path count]; i++) {
 
         CGPoint tmpPoint = CGPointMake(CGPointFromString([path objectAtIndex:i]).x, CGPointFromString([path objectAtIndex:i]).y);
         float distanceTraveled = [self findDistanceBetween:prevPoint andPoint:tmpPoint];
-        if (distanceToTravel > distanceTraveled)
-        {
-            timeLeft -= timeLeft * distanceTraveled/distanceToTravel;
+        if (distanceToTravel > distanceTraveled) {
+            timeLeft -= timeLeft * distanceTraveled / distanceToTravel;
             distanceToTravel -= distanceTraveled;
-            prevPoint = tmpPoint;
 
             // rotate the head
             CGPoint vector = ccpSub(tmpPoint, prevPoint);
 
+            prevPoint = tmpPoint;
+
             // destination vector
-            if (i+1 < [path count]) {
+            if (i + 1 < [path count]) {
                 CGPoint dest2ndPoint = CGPointMake(CGPointFromString([path objectAtIndex:i + 1]).x, CGPointFromString([path objectAtIndex:i + 1]).y);
                 CGPoint destVector = ccpSub(dest2ndPoint, tmpPoint);
 
@@ -411,19 +405,15 @@ const short kLerpConst = 0.7;
 
             continue;
         }
-        else
-        {
+        else {
             CGPoint offset = ccpSub(tmpPoint, prevPoint);
             CGPoint targetVector = ccpNormalize(offset);
             CGPoint targetPerSecond = ccpMult(targetVector, _snakeSpeed);
-
             CGPoint actualTarget = ccpAdd(prevPoint, ccpMult(targetPerSecond, timeLeft));
-
             _snakeHead.position = actualTarget;
 
-
             // destination vector
-            if (i+1 < [path count]) {
+            if (i + 1 < [path count]) {
                 CGPoint dest2ndPoint = CGPointMake(CGPointFromString([path objectAtIndex:i + 1]).x, CGPointFromString([path objectAtIndex:i + 1]).y);
                 CGPoint destVector = ccpSub(dest2ndPoint, tmpPoint);
 
@@ -434,25 +424,16 @@ const short kLerpConst = 0.7;
 
                 _snakeHead.rotation = angle;
             }
-
-
-            // rotate the head
-//            CGFloat rotateAngle = -ccpToAngle(offset);
-//            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
-//            _snakeHead.rotation = angle;
-
-
-
-
-
             break;
         }
     }
 
+    // recreate the touch array
     NSMutableArray *newArray = [[NSMutableArray alloc] init];
     for (int k = 0; k < [_snakeBody count]; k++) {
         [newArray addObject:NSStringFromCGPoint(((CCSprite *)[_snakeBody objectAtIndex:k]).position)];
     }
+    //[newArray addObject:NSStringFromCGPoint(prevHeadPosition)];
     [newArray addObject:NSStringFromCGPoint(_snakeHead.position)];
 
     for (int j = i; j < [path count]; j++) {
@@ -464,78 +445,68 @@ const short kLerpConst = 0.7;
     
 }
 
-//- (void)repositionBodyAlongTouchPath {
-//
-//    int headIndex = [_snakeBody count];
-//         // no body to plot
-//      if (headIndex == 0)
-//          return;
-//
-//      // swap the body by one and remove the first point
-//      for (int i = 0; i < headIndex; i++) {
-//          if (i < headIndex - 1) {
-//              CCSprite *currentSprite = [_snakeBody objectAtIndex:i];
-//              CCSprite *nextSprite = [_snakeBody objectAtIndex:i + 1];
-//              currentSprite.position = nextSprite.position;
-//          }
-//          else {
-//              ((CCSprite *) [_snakeBody objectAtIndex:i]).position = prevHeadPosition;
-//          }
-//      }
-//}
 
 - (void)repositionBodyAlongTouchPath:(ccTime)time {
 
+    // if the head stop moving
+    if ([_touchArray count] <= [_snakeBody count] + 1)
+        return;
+
     float timeLeft = time;
     NSArray *path = [[NSArray alloc] initWithArray:_touchArray];
-    float distanceToTravel = kPixelBetweenSnakeNodes;
-
-
 
     int i = [_snakeBody count] - 1; // skip the body, it will be calculated later
     CGPoint prevPoint = CGPointMake(CGPointFromString([path objectAtIndex:[_snakeBody count]]).x, CGPointFromString([path objectAtIndex:[_snakeBody count]]).y);
 
-
+    CGPoint lastVector = CGPointMake(12, 12);
     for (int l = [_snakeBody count] - 1; l >= 0; l--) {
+        float distanceToTravel = kPixelBetweenSnakeNodes;
 
+        BOOL abort = false;
+        for (i; i >= 0; i--) {
 
+            CGPoint tmpPoint = CGPointMake(CGPointFromString([path objectAtIndex:i]).x, CGPointFromString([path objectAtIndex:i]).y);
+            float distanceBetweenPoint = [self findDistanceBetween:prevPoint andPoint:tmpPoint];
 
-    for (i ; i >= 0; i--) {
+            if (distanceToTravel > distanceBetweenPoint) {
+                distanceToTravel -= distanceBetweenPoint;
+                CGPoint test = prevPoint;
 
-        CGPoint tmpPoint = CGPointMake(CGPointFromString([path objectAtIndex:i]).x, CGPointFromString([path objectAtIndex:i]).y);
-        float distanceTraveled = [self findDistanceBetween:prevPoint andPoint:tmpPoint];
-        if (distanceToTravel > distanceTraveled) {
-            timeLeft -= timeLeft * distanceTraveled/distanceToTravel;
-            distanceToTravel -= distanceTraveled;
-            prevPoint = tmpPoint;
+//                // rotate the head
+                lastVector = ccpSub(tmpPoint, prevPoint);
 
-            // rotate the head
-            CGPoint vector = ccpSub(tmpPoint, prevPoint);
-            CGFloat rotateAngle = -ccpToAngle(vector);
-            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
-            ((CCSprite *) [_snakeBody objectAtIndex:l]).rotation = angle;
+                prevPoint = tmpPoint;
+//                CGFloat rotateAngle = -ccpToAngle(lastVector);
+//                float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+//                ((CCSprite *) [_snakeBody objectAtIndex:l]).rotation = angle;
 
-            continue;
-        }
-        else {
+                if (CGPointEqualToPoint(lastVector, CGPointZero))
+                    int toto = 4;
+                continue;
+            }
+            else {
+                lastVector = ccpSub(tmpPoint, prevPoint);
+                CGPoint targetVector = ccpNormalize(lastVector);
+                CGPoint targetPerSecond = ccpMult(targetVector, distanceToTravel);
+                CGPoint actualTarget = ccpAdd(prevPoint, targetPerSecond);
 
-            CGPoint offset = ccpSub(tmpPoint, prevPoint);
-            CGPoint targetVector = ccpNormalize(offset);
-            CGPoint targetPerSecond = ccpMult(targetVector, distanceToTravel);
+                ((CCSprite *) [_snakeBody objectAtIndex:l]).position = actualTarget;
+                prevPoint = actualTarget;
 
-            CGPoint actualTarget = ccpAdd(prevPoint, targetPerSecond);
+                // rotate the head
+                CGFloat rotateAngle = -ccpToAngle(lastVector);
+                float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
+                ((CCSprite *) [_snakeBody objectAtIndex:l]).rotation = angle;
+                abort = true;
 
-            ((CCSprite *) [_snakeBody objectAtIndex:l]).position = actualTarget;
-            prevPoint = actualTarget;
-
-            // rotate the head
-            CGFloat rotateAngle = -ccpToAngle(offset);
-            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
-            ((CCSprite *) [_snakeBody objectAtIndex:l]).rotation = angle;
-            break;
+                if (CGPointEqualToPoint(lastVector, CGPointZero))
+                    int toto = 4;
+                break;
+            }
         }
     }
-    }
+
+
 }
 
 
@@ -550,59 +521,7 @@ const short kLerpConst = 0.7;
 
 }
 
-//- (void)update:(ccTime)time {
-//
-//    if (_snakeHead.position.x == _snakeHeading.x &&
-//            _snakeHead.position.y == _snakeHeading.y) {
-//
-//        // if head arrives at the start of the path, follow path
-//        if (_nextHeadingIndex < [_touchArray count]) {
-//            _nextHeadingIndex += 2;
-//            if (_nextHeadingIndex >= [_touchArray count]) {
-//                [_touchArray removeAllObjects];
-//                return;
-//            }
-//
-//            _snakeHeading = CGPointMake(CGPointFromString([_touchArray objectAtIndex:_nextHeadingIndex]).x, CGPointFromString([_touchArray objectAtIndex:_nextHeadingIndex]).y);
-//            CGPoint vector = ccpSub(_snakeHeading, _snakeHead.position);
-//            CGFloat rotateAngle = -ccpToAngle(vector);
-//            float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
-//            _snakeHead.rotation = angle;
-//        }
-//        else
-//        {
-//            return;
-//        }
-//    }
-//
-//    CGPoint nextBodyPartCurrentPoint = _snakeHead.position;
-//
-//    float distance = [self findDistanceBetween:_snakeHead.position andPoint:_snakeHeading];
-//    float duration = distance / _snakeSpeed;
-//    [_snakeHead runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:_snakeHeading],
-//    [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadMoveFinished:)],
-//    nil]];
-//
-//    for (int i = 0; i < [_snakeBody count]; i++) {
-//
-//
-//        CCSprite *bodyNode = ((CCSprite *)[_snakeBody objectAtIndex:i]);
-//        CGPoint tmpPoint = bodyNode.position;
-//        CGPoint vector = ccpSub(bodyNode.position, nextBodyPartCurrentPoint);
-//        CGFloat rotateAngle = -ccpToAngle(vector);
-//        float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
-//        bodyNode.rotation = angle;
-//
-//        [bodyNode runAction:[CCSequence actions:[CCMoveTo actionWithDuration:duration position:nextBodyPartCurrentPoint],
-//                                  [CCCallFuncN actionWithTarget:self selector:@selector(snakeBodyMoveFinished:)],
-//                                   nil]];
-//
-//        nextBodyPartCurrentPoint = tmpPoint;
-//    }
-//}
-
-
-//increas the constant if I want it to be smoother
+//increass the constant if I want it to be smoother
 -(CGPoint) lerpWithCurrentVector:(CGPoint)currentVector andDestVector:(CGPoint)destVector andConst:(float)konst
 {
     float a = 1 - konst;
