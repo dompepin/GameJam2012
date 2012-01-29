@@ -117,7 +117,7 @@ const short kLerpConst = 0.6;
         _planetNum = 0;
 
         // TODO: Play background music
-        //[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"dragon.mp3.caf"];
     }
     return self;
 }
@@ -539,8 +539,9 @@ const short kLerpConst = 0.6;
 //increass the constant if I want it to be smoother
 -(CGPoint) lerpWithCurrentVector:(CGPoint)currentVector andDestVector:(CGPoint)destVector andConst:(float)konst
 {
-    float a = 1 - konst;
-    return ccpAdd(ccpMult(currentVector, konst),  ccpMult(destVector, a));
+    return currentVector;
+//    float a = 1 - konst;
+//    return ccpAdd(ccpMult(currentVector, konst),  ccpMult(destVector, a));
 }
 
 @end
