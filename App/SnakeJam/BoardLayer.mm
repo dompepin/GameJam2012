@@ -54,7 +54,7 @@ CGPoint _snakeHeading;
 NSUInteger _nextHeadingIndex;
 int _planetNum;
 int _level = 1;
-int _planetLeft = 10;
+int _planetLeft = 5;
 int _livesLeft = 5;
 BOOL _updating = FALSE;
 float _cTime = 0.0;
@@ -205,7 +205,7 @@ const short kLerpConst = 0.6;
     }
 
     _level++;
-    _planetLeft = 10;
+    _planetLeft = 5;
     _livesLeft++;
     minDuration = minDuration * 0.75;
     maxDuration = maxDuration * 0.75;
@@ -214,6 +214,27 @@ const short kLerpConst = 0.6;
 
 #pragma mark - CCNode Overrides
 
+
+- (void)playEatingPlanetSound:(CCSprite *)sprite {
+
+    int planetID = (arc4random() % 4) + 0;
+    switch (planetID) {
+            case 0:
+            [[SimpleAudioEngine sharedEngine] playEffect:@"GasPlanet.mp3"];
+                break;
+            case 1:
+            [[SimpleAudioEngine sharedEngine] playEffect:@"OmNom3.mp3"];
+                break;
+            case 2:
+            [[SimpleAudioEngine sharedEngine] playEffect:@"RockPlanet.mp3"];
+                break;
+            default:
+            [[SimpleAudioEngine sharedEngine] playEffect:@"WaterPlanet.mp3"];
+                break;
+        }
+
+
+}
 
 - (void)draw {
 
@@ -246,6 +267,7 @@ const short kLerpConst = 0.6;
         if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
             planet.visible = NO;
             [planetsToDelete addObject:planet];
+            [self playEatingPlanetSound:planet];
             [self addSnakeBody];
             --_planetLeft;
             if (_planetLeft <= 0)

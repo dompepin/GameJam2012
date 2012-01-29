@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B649DC2214D536B5003FA4C6 /* Die.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC1C14D536B5003FA4C6 /* Die.mp3 */; };
+		B649DC2314D536B5003FA4C6 /* GasPlanet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC1D14D536B5003FA4C6 /* GasPlanet.mp3 */; };
+		B649DC2414D536B5003FA4C6 /* Menu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC1E14D536B5003FA4C6 /* Menu.mp3 */; };
+		B649DC2514D536B5003FA4C6 /* OmNom3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC1F14D536B5003FA4C6 /* OmNom3.mp3 */; };
+		B649DC2614D536B5003FA4C6 /* RockPlanet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */; };
+		B649DC2714D536B5003FA4C6 /* WaterPlanet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */; };
 		B69C777614D3C412002C9735 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777514D3C412002C9735 /* QuartzCore.framework */; };
 		B69C777814D3C412002C9735 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777714D3C412002C9735 /* OpenGLES.framework */; };
 		B69C777A14D3C412002C9735 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777914D3C412002C9735 /* OpenAL.framework */; };
@@ -15,7 +21,6 @@
 		B69C778014D3C412002C9735 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777F14D3C412002C9735 /* UIKit.framework */; };
 		B69C778214D3C412002C9735 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C778114D3C412002C9735 /* Foundation.framework */; };
 		B69C778414D3C412002C9735 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C778314D3C412002C9735 /* CoreGraphics.framework */; };
-		B69C778814D3C412002C9735 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C778714D3C412002C9735; };
 		B69C778A14D3C412002C9735 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C778914D3C412002C9735 /* fps_images.png */; };
 		B69C778C14D3C412002C9735 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C778B14D3C412002C9735 /* Icon-72.png */; };
 		B69C778E14D3C412002C9735 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C778D14D3C412002C9735 /* Icon-Small-50.png */; };
@@ -162,10 +167,6 @@
 		B69C795B14D3C416002C9735 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C795A14D3C416002C9735 /* blocks.png */; };
 		B69C797514D3CE77002C9735 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B69C797414D3CE77002C9735 /* GameOverScene.m */; };
 		B6FC4BF214D4736100BF83F3 /* Head_Long2_129x82.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FC4BF114D4736100BF83F3 /* Head_Long2_129x82.png */; };
-		B6FC4C0214D50E0200BF83F3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FC4C0114D50E0100BF83F3 /* Default@2x.png */; };
-		B6FC4C0414D50E0800BF83F3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FC4C0314D50E0800BF83F3 /* Default.png */; };
-		B6FC4C0614D50E0D00BF83F3 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FC4C0514D50E0D00BF83F3 /* Default-Landscape~ipad.png */; };
-		B6FC4C0814D5154A00BF83F3 /* nevis.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6FC4C0714D5154900BF83F3 /* nevis.ttf */; };
 		FE9570E214D4A56900FF1030 /* Planet_Water_81x81.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570E114D4A56900FF1030 /* Planet_Water_81x81.png */; };
 		FE9570E814D4FCC500FF1030 /* Body_block_round_40x35.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570E314D4FCC400FF1030 /* Body_block_round_40x35.png */; };
 		FE9570E914D4FCC500FF1030 /* Body_block_rounded_40x35.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570E414D4FCC400FF1030 /* Body_block_rounded_40x35.png */; };
@@ -187,6 +188,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B649DC1C14D536B5003FA4C6 /* Die.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Die.mp3; sourceTree = "<group>"; };
+		B649DC1D14D536B5003FA4C6 /* GasPlanet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = GasPlanet.mp3; sourceTree = "<group>"; };
+		B649DC1E14D536B5003FA4C6 /* Menu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Menu.mp3; sourceTree = "<group>"; };
+		B649DC1F14D536B5003FA4C6 /* OmNom3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = OmNom3.mp3; sourceTree = "<group>"; };
+		B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = RockPlanet.mp3; sourceTree = "<group>"; };
+		B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = WaterPlanet.mp3; sourceTree = "<group>"; };
 		B69C777114D3C412002C9735 /* SnakeJam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnakeJam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C777514D3C412002C9735 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B69C777714D3C412002C9735 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -505,7 +512,6 @@
 		B6FC4C0114D50E0100BF83F3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		B6FC4C0314D50E0800BF83F3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B6FC4C0514D50E0D00BF83F3 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		B6FC4C0714D5154900BF83F3 /* nevis.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = nevis.ttf; sourceTree = "<group>"; };
 		FE9570E114D4A56900FF1030 /* Planet_Water_81x81.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Planet_Water_81x81.png; path = Resources/Planet_Water_81x81.png; sourceTree = "<group>"; };
 		FE9570E314D4FCC400FF1030 /* Body_block_round_40x35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Body_block_round_40x35.png; path = Resources/Body_block_round_40x35.png; sourceTree = "<group>"; };
 		FE9570E414D4FCC400FF1030 /* Body_block_rounded_40x35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Body_block_rounded_40x35.png; path = Resources/Body_block_rounded_40x35.png; sourceTree = "<group>"; };
@@ -604,6 +610,12 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B649DC1C14D536B5003FA4C6 /* Die.mp3 */,
+				B649DC1D14D536B5003FA4C6 /* GasPlanet.mp3 */,
+				B649DC1E14D536B5003FA4C6 /* Menu.mp3 */,
+				B649DC1F14D536B5003FA4C6 /* OmNom3.mp3 */,
+				B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */,
+				B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */,
 				FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */,
 				FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */,
 				FE9570ED14D4FFBA00FF1030 /* dragon.mp3.caf */,
@@ -1166,6 +1178,12 @@
 				FE9570FC14D502BF00FF1030 /* Background_level3_1024x768.png in Resources */,
 				FE9570FE14D5037B00FF1030 /* Body_block_round_61x53.png in Resources */,
 				FE95710014D519FC00FF1030 /* Menu_button_345x75.png in Resources */,
+				B649DC2214D536B5003FA4C6 /* Die.mp3 in Resources */,
+				B649DC2314D536B5003FA4C6 /* GasPlanet.mp3 in Resources */,
+				B649DC2414D536B5003FA4C6 /* Menu.mp3 in Resources */,
+				B649DC2514D536B5003FA4C6 /* OmNom3.mp3 in Resources */,
+				B649DC2614D536B5003FA4C6 /* RockPlanet.mp3 in Resources */,
+				B649DC2714D536B5003FA4C6 /* WaterPlanet.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
