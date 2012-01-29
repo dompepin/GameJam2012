@@ -222,7 +222,7 @@ const short kPlanetsPerLevel = 10;
             [self removeChild:background2 cleanup:YES];
             background3 = [CCSprite spriteWithFile:@"Background_level3_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
             background3.position = ccp(1024 / 2, 768 / 2);
-            [self addChild:background2 z:-1];
+            [self addChild:background3 z:-1];
             break;
         default:
             // you win!
