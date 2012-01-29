@@ -158,7 +158,7 @@ const short kLerpConst = 0.6;
 
     for (CCSprite *planet in _planetArray) {
         if (!planet.visible) continue;
-
+        CGRect planetBounds = CGRectMake(planet.position.x-(planet.contentSize.width/2), planet.position.y-(planet.contentSize.height/2), planet.contentSize.width, planet.contentSize.height);
         if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
 //            [_snakeHead runAction:[CCSequence actions:
 //                                   [CCBlink actionWithDuration:1.0 blinks:20],
@@ -179,7 +179,8 @@ const short kLerpConst = 0.6;
                 ccp(rect.origin.x,rect.origin.y+rect.size.height),
             };
             ccDrawPoly(vertices, 4, YES);
-            rect = planet.boundingBox;
+            //rect = planet.boundingBox;
+            rect = planetBounds;
             CGPoint vertices1[4]={
                 ccp(rect.origin.x,rect.origin.y),
                 ccp(rect.origin.x+rect.size.width,rect.origin.y),
@@ -235,11 +236,6 @@ const short kLerpConst = 0.6;
     oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
 
     [self.touchArray addObject:NSStringFromCGPoint(new_location)];
-}
-
-//
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-
 }
 
 //

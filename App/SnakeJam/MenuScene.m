@@ -10,7 +10,6 @@
 #import "GameConfig.h"
 #import "BoardLayer.h"
 
-
 @implementation MenuScene
 
 +(id) scene {
