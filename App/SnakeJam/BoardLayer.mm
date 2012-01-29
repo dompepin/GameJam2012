@@ -203,33 +203,31 @@ const short kPlanetsPerLevel = 10;
 - (void)levelUp {
     // reset arrays
     [self resetParameters];
-    
-//    background1 = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
-//    background1.position = ccp(1024 / 2, 768 / 2);
-//    background2 = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
-//    background2.position = ccp(1024 / 2, 768 / 2);
-//    background3 = [CCSprite spriteWithFile:@"Background_level3_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
-//    background3.position = ccp(1024 / 2, 768 / 2);
-//    
-//    int level = (_level%3)+1;
-//    switch (level) {
-//        case 1:
-//            [self removeChild:background3 cleanup:YES];
-//            [self addChild:background1 z:-1];
-//            break;            
-//        case 2:
-//            if (_level != 1)
-//                [self removeChild:background1 cleanup:YES];
-//            [self addChild:background2 z:-1];
-//            break;
-//        case 3:
-//            [self removeChild:background2 cleanup:YES];
-//            [self addChild:background3 z:-1];
-//            break;
-//        default:
-//            // you win!
-//            break;
-//    }
+
+    int level = (_level%3)+1;
+    switch (level) {
+        case 1:
+            [self removeChild:background3 cleanup:YES];
+            background1 = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+            background1.position = ccp(1024 / 2, 768 / 2);            
+            [self addChild:background1 z:-1];
+            break;            
+        case 2:
+            [self removeChild:background1 cleanup:YES];
+            background2 = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+            background2.position = ccp(1024 / 2, 768 / 2);
+            [self addChild:background2 z:-1];
+            break;
+        case 3:
+            [self removeChild:background2 cleanup:YES];
+            background3 = [CCSprite spriteWithFile:@"Background_level3_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+            background3.position = ccp(1024 / 2, 768 / 2);
+            [self addChild:background2 z:-1];
+            break;
+        default:
+            // you win!
+            break;
+    }
 
     _level++;
     _planetLeft = kPlanetsPerLevel;
@@ -420,6 +418,7 @@ const short kPlanetsPerLevel = 10;
 
     // Determine speed of the target
     int rangeDuration = maxYDuration - minYDuration;
+    if (rangeDuration == 0) rangeDuration = 1;
     int actualDuration = (arc4random() % rangeDuration) + minYDuration;
 
     // Create the actions
