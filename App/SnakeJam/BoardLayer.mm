@@ -16,7 +16,6 @@
 // HelloWorldLayer implementation
 @interface BoardLayer ()
 
-@property(retain, nonatomic) NSMutableArray* deleteArray;
 @property(retain, nonatomic) NSMutableArray* snakeBody;
 @property(retain, nonatomic) CCSprite *snakeHead;
 @property(retain, nonatomic) NSMutableArray* touchArray;
@@ -51,6 +50,7 @@ CGPoint _previousSnakeHeadPosition;
 CGPoint _snakeHeading;
 NSUInteger _nextHeadingIndex;
 int _planetNum;
+int _level;
 
 const short kPixelBetweenSnakeNodes = 45;
 
@@ -60,7 +60,6 @@ const short kLerpConst = 0.6;
 @synthesize snakeHead = _snakeHead;
 @synthesize snakeBody = _snakeBody;
 @synthesize touchArray = _touchArray;
-@synthesize deleteArray = _deleteArray;
 @synthesize planetArray = _planetArray;
 @synthesize newBodyToInsert = _newBodyToInsert;
 
@@ -74,7 +73,6 @@ const short kLerpConst = 0.6;
     [_snakeHead release], _snakeHead = nil;
     [_snakeBody release], _snakeBody = nil;
     [_touchArray release], _touchArray= nil;
-    [_deleteArray release], _deleteArray=nil;
     [_planetArray release];
     [_newBodyToInsert release];
     [super dealloc];
@@ -85,38 +83,34 @@ const short kLerpConst = 0.6;
     if (self = [super init]) { // initWithColor:ccc4(145, 255, 255, 255)])) {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
 
-
         [self addBackground];
 
         [self createSnakeHead:winSize];
 
         self.touchArray =[[NSMutableArray alloc ] init];
         self.newBodyToInsert = [[NSMutableArray alloc] init];
-
-
-        self.snakeBody = [[NSMutableArray alloc] init];
-        [self addSnakeBody];
-        [self addSnakeBody];
+        self.snakeBody = [[NSMutableArray alloc] init];      
+        self.planetArray = [[NSMutableArray alloc ] init];
 
         // adding the snake head after the body so that it renders on top
+        [self addSnakeBody];
+        [self addSnakeBody];
         [self addChild:_snakeHead];
         [self reorderChild:_snakeHead z:2];
 
+        // add startup path
         [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
         [_touchArray addObject:NSStringFromCGPoint(CGPointMake(winSize.width, winSize.height/2))];
-        self.deleteArray =[[NSMutableArray alloc ] init];
-
-        self.planetArray = [[NSMutableArray alloc ] init];
         
-
         [self schedule:@selector(gameLogic:) interval:3];
         [self schedule:@selector(update:)];
 
         self.isTouchEnabled = YES;
         _nextHeadingIndex = 0;
         _planetNum = 0;
+        _level = 1;
 
-        // TODO: Play background music
+        // Play background music
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"dragon.mp3.caf"];
     }
     return self;
@@ -136,6 +130,46 @@ const short kLerpConst = 0.6;
 
     // return the scene
     return scene;
+}
+
+-(void)resetParameters {
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    
+    [self.touchArray removeAllObjects];
+    [self.newBodyToInsert removeAllObjects];
+    [self.snakeBody removeAllObjects];
+    [self.planetArray removeAllObjects];
+
+    // add startup path
+    [_touchArray addObject:NSStringFromCGPoint(_snakeHead.position)];
+    [_touchArray addObject:NSStringFromCGPoint(CGPointMake(winSize.width, winSize.height/2))];
+    
+    _nextHeadingIndex = 0;
+    
+    _level++;
+}
+
+-(void)levelUp {
+    CCSprite* background;
+
+    // reset arrays
+    [self resetParameters];
+    
+    switch (_level) {
+        case 2:
+            background = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+            background.position = ccp(1024/2,768/2);
+            [self addChild:background z:-1];
+            break;
+        case 3:
+            background = [CCSprite spriteWithFile:@"Background_level3_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+            background.position = ccp(1024/2,768/2);
+            [self addChild:background z:-1];
+            break;           
+        default:
+            // you win!
+            break;
+    }
 }
 
 #pragma mark - CCNode Overrides
@@ -160,12 +194,9 @@ const short kLerpConst = 0.6;
         if (!planet.visible) continue;
         CGRect planetBounds = CGRectMake(planet.position.x-(planet.contentSize.width/2), planet.position.y-(planet.contentSize.height/2), planet.contentSize.width, planet.contentSize.height);
         if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
-//            [_snakeHead runAction:[CCSequence actions:
-//                                   [CCBlink actionWithDuration:1.0 blinks:20],
-//                                   [CCCallFuncN actionWithTarget:self selector:@selector(snakeHeadBlinkFinished:)],
-//                                   nil]];
             planet.visible = NO;
             [self addSnakeBody];
+            [self levelUp];
         }
 
         // set this to yes for debug purposes
@@ -198,20 +229,16 @@ const short kLerpConst = 0.6;
 
     _nextHeadingIndex = 0;
 
-
-// Choose one of the touches to work with
+    // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:[touch view]];
     touchLocation = [[CCDirector sharedDirector] convertToGL:touchLocation];
-
-
     _snakeHeading = touchLocation;
 
     NSMutableArray *tmpArray = [[NSMutableArray alloc] init];
-
     for (int k = 0; k < [_snakeBody count]; k++) {
-            [tmpArray addObject:NSStringFromCGPoint(((CCSprite *)[_snakeBody objectAtIndex:k]).position)];
-        }
+        [tmpArray addObject:NSStringFromCGPoint(((CCSprite *)[_snakeBody objectAtIndex:k]).position)];
+    }
     [tmpArray addObject:NSStringFromCGPoint(_snakeHead.position)];
     [tmpArray addObject:NSStringFromCGPoint(touchLocation)];
 
@@ -222,7 +249,6 @@ const short kLerpConst = 0.6;
     CGFloat rotateAngle = -ccpToAngle(vector);
     float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
     _snakeHead.rotation = angle;
-
 }
 
 //
@@ -250,7 +276,7 @@ const short kLerpConst = 0.6;
 #pragma mark - Private Methods
 //
 - (void)addBackground {
-    CCSprite* background = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+    CCSprite* background = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
     background.position = ccp(1024/2,768/2);
     [self addChild:background z:-1];
 }
@@ -338,7 +364,6 @@ const short kLerpConst = 0.6;
     }
 }
 
-
 // Occurs when the snake body finished moving
 - (void)planetMoveFinished:(id)sender {
     CCSprite *sprite = (CCSprite *)sender;
@@ -348,17 +373,13 @@ const short kLerpConst = 0.6;
 
 // Occurs when the snake body finished moving
 - (void)snakeBodyMoveFinished:(id)sender {
-
 }
 
 // Occurs when the snake head finished moving
 - (void)snakeHeadMoveFinished:(id)sender {
-
-
 }
 
 -(void)snakeHeadBlinkFinished:(id)sender {
-    _snakeHead.visible = true;
 }
 
 
@@ -470,10 +491,10 @@ const short kLerpConst = 0.6;
                 distanceToTravel -= distanceBetweenPoint;
                 CGPoint test = prevPoint;
 
-//                // rotate the head
                 lastVector = ccpSub(tmpPoint, prevPoint);
-
                 prevPoint = tmpPoint;
+
+                // rotate the body segment
 //                CGFloat rotateAngle = -ccpToAngle(lastVector);
 //                float angle = CC_RADIANS_TO_DEGREES(rotateAngle);
 //                ((CCSprite *) [_snakeBody objectAtIndex:l]).rotation = angle;
@@ -515,8 +536,8 @@ const short kLerpConst = 0.6;
         for (int i = 0; i < [_newBodyToInsert count]; i++) {
             CCSprite *snakeNode = (CCSprite *)[_newBodyToInsert objectAtIndex:i];
             [_snakeBody addObject:snakeNode];
-                        [self addChild:snakeNode];
-                        [self reorderChild:snakeNode z:1];
+            [self addChild:snakeNode];
+            [self reorderChild:snakeNode z:1];
 
             [_touchArray insertObject:NSStringFromCGPoint(snakeNode.position) atIndex:0];
             [_newBodyToInsert removeAllObjects];
