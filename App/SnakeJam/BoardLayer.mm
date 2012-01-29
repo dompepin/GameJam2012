@@ -215,7 +215,6 @@ const short kLerpConst = 0.6;
 
     _level++;
     _planetLeft = 5;
-    _livesLeft++;
     minYDuration = minYDuration * 0.75;
     maxYDuration = maxYDuration * 0.75;
     _snakeSpeed = _snakeSpeed * 1.25;
@@ -518,6 +517,14 @@ const short kLerpConst = 0.6;
     if (sprite.visible)
         _livesLeft--;
 
+    if (_livesLeft <= 0)
+    {
+        GameOverScene *gameOverScene = [GameOverScene node];
+        [gameOverScene.layer.label setString:@"You Lose :["];
+        [[CCDirector sharedDirector] replaceScene:gameOverScene];
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:nil];
+    }
+
 }
 
 // Occurs when the snake body finished moving
@@ -687,7 +694,7 @@ const short kLerpConst = 0.6;
         if ([_newBodyToInsert count] > 0) {
             for (int i = 0; i < [_newBodyToInsert count]; i++) {
                 CCSprite *snakeNode = (CCSprite *) [_newBodyToInsert objectAtIndex:i];
-                [_snakeBody addObject:snakeNode];
+                [_snakeBody insertObject:snakeNode atIndex:0];
                 [self addChild:snakeNode];
                 [self reorderChild:snakeNode z:1];
 

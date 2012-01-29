@@ -8,6 +8,7 @@
 
 #import "GameOverScene.h"
 #import "BoardLayer.h"
+#import "MenuScene.h"
 
 @implementation GameOverScene
 @synthesize layer = _layer;
@@ -43,7 +44,7 @@
         [self addChild:_label];
         
         [self runAction:[CCSequence actions:
-                         [CCDelayTime actionWithDuration:3],
+                         [CCDelayTime actionWithDuration:5],
                          [CCCallFunc actionWithTarget:self selector:@selector(gameOverDone)],
                          nil]];
         
@@ -53,8 +54,7 @@
 
 - (void)gameOverDone {
     
-    [[CCDirector sharedDirector] replaceScene:[BoardLayer scene]];
-    
+    [[CCDirector sharedDirector] replaceScene:[MenuScene scene]];
 }
 
 - (void)dealloc {
