@@ -29,7 +29,10 @@
 
 - (void)addBackground;
 
-- (void)addPlanet:(CCSprite *)planet;
+- (void)addYPlanet:(CCSprite *)planet;
+
+
+- (void)addXPlanet:(CCSprite *)planet;
 
 - (void)addSnakeBody;
 
@@ -58,8 +61,10 @@ int _planetLeft = 5;
 int _livesLeft = 5;
 BOOL _updating = FALSE;
 float _cTime = 0.0;
-float minDuration = 10;
-float maxDuration = 30;
+float minYDuration = 10;
+float maxYDuration = 30;
+float minXDuration;
+float maxXDuration;
 
 const short kPixelBetweenSnakeNodes = 45;
 
@@ -96,6 +101,10 @@ const short kLerpConst = 0.6;
 // on "init" you need to initialize your instance
 - (id)init {
     if (self = [super init]) { // initWithColor:ccc4(145, 255, 255, 255)])) {
+
+        maxXDuration = maxYDuration * 768 / 1024;
+        minXDuration = minYDuration * 768 / 1024;
+
         CGSize winSize = [[CCDirector sharedDirector] winSize];
 
         [self addBackground];
@@ -207,8 +216,8 @@ const short kLerpConst = 0.6;
     _level++;
     _planetLeft = 5;
     _livesLeft++;
-    minDuration = minDuration * 0.75;
-    maxDuration = maxDuration * 0.75;
+    minYDuration = minYDuration * 0.75;
+    maxYDuration = maxYDuration * 0.75;
     _snakeSpeed = _snakeSpeed * 1.25;
 }
 
@@ -273,6 +282,14 @@ const short kLerpConst = 0.6;
             if (_planetLeft <= 0)
                 [self levelUp];
         }
+
+//        for (int i = 0; i < [planetsToDelete count]; i++) {
+//
+//            CCSprite* sprite = (CCSprite *)[planetsToDelete objectAtIndex:i];
+//            @synchronized (_planetArray) {
+//                [_planetArray removeObject:sprite];
+//            }
+//        }
 
         // set this to yes for debug purposes
         BOOL drawBoundingBoxes = YES;
@@ -347,7 +364,15 @@ const short kLerpConst = 0.6;
 
 - (void)gameLogic:(ccTime)dt {
     CCSprite *target = [self getPlanet:(_planetNum % 3)];
-    [self addPlanet:target];
+
+    int random = (arc4random() % 2) + 0;
+
+    if (random == 1) {
+        [self addXPlanet:target];
+    }
+    else {
+        [self addYPlanet:target];
+    }
     _planetNum++;
 }
 
@@ -360,10 +385,12 @@ const short kLerpConst = 0.6;
 }
 
 //
-- (void)addPlanet:(CCSprite *)planet; {
+- (void)addYPlanet:(CCSprite *)planet; {
 
     planet.tag = kTagForPlanetSprite;
-    [_planetArray addObject:planet];
+    @synchronized (_planetArray) {
+        [_planetArray addObject:planet];
+    }
 
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
@@ -379,8 +406,8 @@ const short kLerpConst = 0.6;
     [self reorderChild:planet z:0];
 
     // Determine speed of the target
-    int rangeDuration = maxDuration - minDuration;
-    int actualDuration = (arc4random() % rangeDuration) + minDuration;
+    int rangeDuration = maxYDuration - minYDuration;
+    int actualDuration = (arc4random() % rangeDuration) + minYDuration;
 
     // Create the actions
     id actionMove = [CCMoveTo actionWithDuration:actualDuration
@@ -388,7 +415,46 @@ const short kLerpConst = 0.6;
     id actionMoveDone = [CCCallFuncN actionWithTarget:self
                                              selector:@selector(planetMoveFinished:)];
 
-    actualDuration = (arc4random() % rangeDuration) + minDuration;
+    actualDuration = (arc4random() % rangeDuration) + minYDuration;
+    id rotate = [CCRotateBy actionWithDuration:actualDuration angle:3000];
+    id actions = [CCSpawn actions:actionMove, rotate, nil];
+    id sequence = [CCSequence actions:actions, actionMoveDone, nil];
+
+    [planet runAction:sequence];
+}
+
+//
+- (void)addXPlanet:(CCSprite *)planet; {
+
+    planet.tag = kTagForPlanetSprite;
+    @synchronized (_planetArray) {
+        [_planetArray addObject:planet];
+    }
+
+    // Determine where to spawn the target along the Y axis
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    int minX = planet.contentSize.width / 2;
+    int maxX = winSize.width - planet.contentSize.width / 2;
+    int rangeX = maxX - minX;
+    int actualX = (arc4random() % rangeX) + minX;
+
+    // Create the target slightly off-screen along the right edge,
+    // and along a random position along the Y axis as calculated above
+    planet.position = ccp(actualX, winSize.width + (planet.contentSize.width / 2));
+    [self addChild:planet];
+    [self reorderChild:planet z:0];
+
+    // Determine speed of the target
+    int rangeDuration = maxXDuration - minXDuration;
+    int actualDuration = (arc4random() % rangeDuration) + minYDuration;
+
+    // Create the actions
+    id actionMove = [CCMoveTo actionWithDuration:actualDuration
+                                        position:ccp(actualX, -planet.contentSize.width / 2)];
+    id actionMoveDone = [CCCallFuncN actionWithTarget:self
+                                             selector:@selector(planetMoveFinished:)];
+
+    actualDuration = (arc4random() % rangeDuration) + minXDuration;
     id rotate = [CCRotateBy actionWithDuration:actualDuration angle:3000];
     id actions = [CCSpawn actions:actionMove, rotate, nil];
     id sequence = [CCSequence actions:actions, actionMoveDone, nil];
@@ -445,7 +511,9 @@ const short kLerpConst = 0.6;
 - (void)planetMoveFinished:(id)sender {
     CCSprite *sprite = (CCSprite *) sender;
     [self removeChild:sprite cleanup:YES];
-    //[_planetArray removeObject:sprite];
+    @synchronized (_planetArray) {
+        [_planetArray removeObject:sprite];
+    }
 
     if (sprite.visible)
         _livesLeft--;
