@@ -14,6 +14,11 @@
 		B649DC2614D536B5003FA4C6 /* RockPlanet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */; };
 		B649DC2714D536B5003FA4C6 /* WaterPlanet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */; };
 		B649DC2A14D5CB8D003FA4C6 /* nevis.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2914D5CB8D003FA4C6 /* nevis.ttf */; };
+		B649DC2C14D5CCE9003FA4C6 /* menu-final.png in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2B14D5CCE9003FA4C6 /* menu-final.png */; };
+		B649DC3014D5CFBD003FA4C6 /* Menu_button.png in Resources */ = {isa = PBXBuildFile; fileRef = B649DC2F14D5CFBC003FA4C6 /* Menu_button.png */; };
+		B649DC3214D5D577003FA4C6 /* gameOverMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = B649DC3114D5D575003FA4C6 /* gameOverMenu.png */; };
+		B649DC3414D5D64C003FA4C6 /* Death.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B649DC3314D5D64A003FA4C6 /* Death.mp3 */; };
+		B649DC3614D5DB9D003FA4C6 /* HUD_FINAL.png in Resources */ = {isa = PBXBuildFile; fileRef = B649DC3514D5DB9C003FA4C6 /* HUD_FINAL.png */; };
 		B69C777614D3C412002C9735 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777514D3C412002C9735 /* QuartzCore.framework */; };
 		B69C777814D3C412002C9735 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777714D3C412002C9735 /* OpenGLES.framework */; };
 		B69C777A14D3C412002C9735 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777914D3C412002C9735 /* OpenAL.framework */; };
@@ -196,6 +201,11 @@
 		B649DC2014D536B5003FA4C6 /* RockPlanet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = RockPlanet.mp3; sourceTree = "<group>"; };
 		B649DC2114D536B5003FA4C6 /* WaterPlanet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = WaterPlanet.mp3; sourceTree = "<group>"; };
 		B649DC2914D5CB8D003FA4C6 /* nevis.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = nevis.ttf; sourceTree = "<group>"; };
+		B649DC2B14D5CCE9003FA4C6 /* menu-final.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-final.png"; sourceTree = "<group>"; };
+		B649DC2F14D5CFBC003FA4C6 /* Menu_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Menu_button.png; sourceTree = "<group>"; };
+		B649DC3114D5D575003FA4C6 /* gameOverMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameOverMenu.png; sourceTree = "<group>"; };
+		B649DC3314D5D64A003FA4C6 /* Death.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Death.mp3; sourceTree = "<group>"; };
+		B649DC3514D5DB9C003FA4C6 /* HUD_FINAL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HUD_FINAL.png; sourceTree = "<group>"; };
 		B69C777114D3C412002C9735 /* SnakeJam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnakeJam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69C777514D3C412002C9735 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B69C777714D3C412002C9735 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -612,6 +622,11 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B649DC3514D5DB9C003FA4C6 /* HUD_FINAL.png */,
+				B649DC3314D5D64A003FA4C6 /* Death.mp3 */,
+				B649DC3114D5D575003FA4C6 /* gameOverMenu.png */,
+				B649DC2F14D5CFBC003FA4C6 /* Menu_button.png */,
+				B649DC2B14D5CCE9003FA4C6 /* menu-final.png */,
 				B649DC2914D5CB8D003FA4C6 /* nevis.ttf */,
 				FE9570F114D4FFBB00FF1030 /* Background_level1_1024x768.png */,
 				FE9570F714D501BB00FF1030 /* Background_level2_1024x768.png */,
@@ -1188,6 +1203,11 @@
 				B649DC2614D536B5003FA4C6 /* RockPlanet.mp3 in Resources */,
 				B649DC2714D536B5003FA4C6 /* WaterPlanet.mp3 in Resources */,
 				B649DC2A14D5CB8D003FA4C6 /* nevis.ttf in Resources */,
+				B649DC2C14D5CCE9003FA4C6 /* menu-final.png in Resources */,
+				B649DC3014D5CFBD003FA4C6 /* Menu_button.png in Resources */,
+				B649DC3214D5D577003FA4C6 /* gameOverMenu.png in Resources */,
+				B649DC3414D5D64C003FA4C6 /* Death.mp3 in Resources */,
+				B649DC3614D5DB9D003FA4C6 /* HUD_FINAL.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

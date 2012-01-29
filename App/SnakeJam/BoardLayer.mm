@@ -284,12 +284,17 @@ const short kPlanetsPerLevel = 10;
     }
 
     NSMutableArray *planetsToDelete = [[NSMutableArray alloc] init];
+    CGRect snakeBoundingBox = _snakeHead.boundingBox;
+            //CGRectMake(_snakeHead.boundingBox.origin.x, _snakeHead.boundingBox.origin.y, _snakeHead.boundingBox.size.width - 10, _snakeHead.boundingBox.size.height - 10);
     for (CCSprite *planet in _planetArray) {
         if (!planet.visible) continue;
         CGRect planetBounds = CGRectMake(planet.position.x - (planet.contentSize.width / 2), planet.position.y - (planet.contentSize.height / 2), planet.contentSize.width, planet.contentSize.height);
-        if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
+        
+        if (CGRectIntersectsRect(snakeBoundingBox, planet.boundingBox))
+        {
             planet.visible = NO;
             [planetsToDelete addObject:planet];
+            [self playEatingPlanetSound:planet];
             [self playEatingPlanetSound:planet];
             [self addSnakeBody];
             --_planetLeft;
@@ -306,7 +311,7 @@ const short kPlanetsPerLevel = 10;
         // set this to yes for debug purposes
         BOOL drawBoundingBoxes = NO;
         if (drawBoundingBoxes) {
-            CGRect rect = _snakeHead.boundingBox;
+            CGRect rect = snakeBoundingBox;
             CGPoint vertices[4] = {
                     ccp(rect.origin.x, rect.origin.y),
                     ccp(rect.origin.x + rect.size.width, rect.origin.y),

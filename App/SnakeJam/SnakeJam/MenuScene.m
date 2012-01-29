@@ -24,16 +24,16 @@
         CCSprite* background = [CCSprite spriteWithFile:@"Background_level2_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
         background.position = ccp(1024/2,768/2);
         [self addChild:background z:-1];
-        background = [CCSprite spriteWithFile:@"menu-final.png" rect:CGRectMake(0, 0, 1024, 768)];
+        background = [CCSprite spriteWithFile:@"menu.png" rect:CGRectMake(0, 0, 1024, 768)];
         background.position = ccp(1024/2,768/2);
         [self addChild:background z:0];
         
-        CCMenuItem *playButton = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"Menu_button.png" rect:CGRectMake(20, 0, 376, 200)]
-                                                         selectedSprite:[CCSprite spriteWithFile:@"Menu_button.png" rect:CGRectMake(0, 0, 376, 200)]
+        CCMenuItem *playButton = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"Menu_button_345x75.png" rect:CGRectMake(0, 0, 345, 75)]
+                                                         selectedSprite:[CCSprite spriteWithFile:@"Menu_button_345x75.png" rect:CGRectMake(0, 0, 345, 75)]
                                                                  target:self 
                                                                selector:@selector(playBtnTapped:)];
 
-        playButton.position = CGPointMake(200, 200);//CGPointMake(playButton.position.x - 200, playButton.position.y);
+        
         CCMenu *menu = [CCMenu menuWithItems:playButton, nil];
         [menu alignItemsVertically];
         [self addChild:menu];

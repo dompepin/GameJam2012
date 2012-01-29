@@ -9,6 +9,7 @@
 #import "GameOverScene.h"
 #import "BoardLayer.h"
 #import "MenuScene.h"
+#import "SimpleAudioEngine.h"
 
 @implementation GameOverScene
 @synthesize layer = _layer;
@@ -35,18 +36,23 @@
 
 -(id) init
 {
-    if( (self=[super initWithColor:ccc4(255,255,255,255)] )) {
-        
+    if( (self=[super initWithColor:ccc4(255,0,0,0)] )) {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
-        self.label = [CCLabelTTF labelWithString:@"" fontName:@"Arial" fontSize:32];
-        _label.color = ccc3(0,0,0);
-        _label.position = ccp(winSize.width/2, winSize.height/2);
-        [self addChild:_label];
-        
+
+        CCSprite* background = [CCSprite spriteWithFile:@"Background_level1_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+        background.position = ccp(1024/2,768/2);
+        [self addChild:background z:-1];
+
+        background = [CCSprite spriteWithFile:@"gameOverMenu.png" rect:CGRectMake(0, 0, 1024, 768)];
+        background.position = ccp(1024/2,768/2);
+        [self addChild:background z:0];
+
         [self runAction:[CCSequence actions:
-                         [CCDelayTime actionWithDuration:5],
+                         [CCDelayTime actionWithDuration:3],
                          [CCCallFunc actionWithTarget:self selector:@selector(gameOverDone)],
                          nil]];
+
+        [[SimpleAudioEngine sharedEngine] playEffect:@"Death.mp3"];
         
     }	
     return self;
