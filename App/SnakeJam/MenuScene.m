@@ -22,8 +22,16 @@
 
 - (id)init {
     if ((self = [super init])) {
-        CCLayerColor *backgroundLayer = [CCLayerColor layerWithColor:kGameBackgroundColor];
-        [self addChild:backgroundLayer];
+        CCSprite* background = [CCSprite spriteWithFile:@"Background_level3_1024x768.png" rect:CGRectMake(0, 0, 1024, 768)];
+        background.position = ccp(1024/2,768/2);
+        [self addChild:background z:-1];
+        background = [CCSprite spriteWithFile:@"menu.png" rect:CGRectMake(0, 0, 1024, 768)];
+        background.position = ccp(1024/2,768/2);
+        [self addChild:background z:0];
+
+        
+        //CCLayerColor *backgroundLayer = [CCLayerColor layerWithColor:kGameBackgroundColor];
+        //[self addChild:backgroundLayer];
         
         CCMenuItem *playButton = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"play.png" rect:CGRectMake(0, 0, 127, 140)]
                                                          selectedSprite:[CCSprite spriteWithFile:@"play.png" rect:CGRectMake(0, 0, 127, 140)]

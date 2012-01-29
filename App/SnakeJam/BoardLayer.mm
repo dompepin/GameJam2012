@@ -96,8 +96,6 @@ const short kLerpConst = 0.6;
         self.snakeBody = [[NSMutableArray alloc] init];
         [self addSnakeBody];
         [self addSnakeBody];
-//        [self addSnakeBody];
-//        [self addSnakeBody];
 
         // adding the snake head after the body so that it renders on top
         [self addChild:_snakeHead];
