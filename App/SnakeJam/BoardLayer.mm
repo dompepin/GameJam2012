@@ -147,7 +147,7 @@ const short kLerpConst = 0.6;
 
         self.levelLabel = [CCLabelTTF labelWithString:nil fontName:@"Nevis" fontSize:24];
         _levelLabel.color = ccc3(255, 255, 255);
-        _levelLabel.position = ccp(winSize.width - 120, winSize.height - 122);
+        _levelLabel.position = ccp(winSize.width - 120, winSize.height - 132);
 
         [self addChild:_planetLeftLabel z:+3];
         [self addChild:_livesLabel z:+3];
@@ -174,7 +174,7 @@ const short kLerpConst = 0.6;
 
 #pragma mark - CCNode Overrides
 
-- (void)LevelUp {
+- (void)levelUp {
     _level++;
     _planetLeft = 10;
     _livesLeft++;
@@ -185,9 +185,9 @@ const short kLerpConst = 0.6;
 
 - (void)draw {
 
-    [_planetLeftLabel setString:[NSString stringWithFormat:@"Planets Left : %d", _planetLeft]];
-    [_livesLabel setString:[NSString      stringWithFormat:@"Lives Left   : %d", _livesLeft]];
-    [_levelLabel setString:[NSString      stringWithFormat:@"Level        : %d", _level]];
+    [_planetLeftLabel setString:[NSString stringWithFormat:@"PLANETS LEFT : %d", _planetLeft]];
+    [_livesLabel setString:[NSString      stringWithFormat:@"LIVES                : %d", _livesLeft]];
+    [_levelLabel setString:[NSString      stringWithFormat:@"LEVEL                : %d", _level]];
 
     if (_updating)
         return;
@@ -209,16 +209,15 @@ const short kLerpConst = 0.6;
 
     NSMutableArray *planetsToDelete = [[NSMutableArray alloc] init];
     for (CCSprite *planet in _planetArray) {
-        if (!planet.visible)
-            continue;
-
+        if (!planet.visible) continue;
+        CGRect planetBounds = CGRectMake(planet.position.x-(planet.contentSize.width/2), planet.position.y-(planet.contentSize.height/2), planet.contentSize.width, planet.contentSize.height);
         if (CGRectIntersectsRect(_snakeHead.boundingBox, planet.boundingBox)) {
             planet.visible = NO;
             [planetsToDelete addObject:planet];
             [self addSnakeBody];
             --_planetLeft;
-            if (_planetLeft < 0)
-                [self LevelUp];
+            if (_planetLeft <= 0)
+                [self levelUp];
         }
 
         // set this to yes for debug purposes
@@ -232,12 +231,13 @@ const short kLerpConst = 0.6;
                     ccp(rect.origin.x, rect.origin.y + rect.size.height),
             };
             ccDrawPoly(vertices, 4, YES);
-            rect = planet.boundingBox;
-            CGPoint vertices1[4] = {
-                    ccp(rect.origin.x, rect.origin.y),
-                    ccp(rect.origin.x + rect.size.width, rect.origin.y),
-                    ccp(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height),
-                    ccp(rect.origin.x, rect.origin.y + rect.size.height),
+            //rect = planet.boundingBox;
+            rect = planetBounds;
+            CGPoint vertices1[4]={
+                ccp(rect.origin.x,rect.origin.y),
+                ccp(rect.origin.x+rect.size.width,rect.origin.y),
+                ccp(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height),
+                ccp(rect.origin.x,rect.origin.y+rect.size.height),
             };
             ccDrawPoly(vertices1, 4, YES);
         }
@@ -293,13 +293,6 @@ const short kLerpConst = 0.6;
         oldTouchLocation = [self convertToNodeSpace:oldTouchLocation];
 
         [self.touchArray addObject:NSStringFromCGPoint(new_location)];
-    }
-
-//
-    -(void) ccTouchesEnded:(NSSet *) touches
-    withEvent:(UIEvent *) event
-    {
-
     }
 
 //

@@ -15,6 +15,7 @@
 		B69C778014D3C412002C9735 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C777F14D3C412002C9735 /* UIKit.framework */; };
 		B69C778214D3C412002C9735 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C778114D3C412002C9735 /* Foundation.framework */; };
 		B69C778414D3C412002C9735 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69C778314D3C412002C9735 /* CoreGraphics.framework */; };
+		B69C778814D3C412002C9735 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C778714D3C412002C9735; };
 		B69C778A14D3C412002C9735 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C778914D3C412002C9735 /* fps_images.png */; };
 		B69C778C14D3C412002C9735 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C778B14D3C412002C9735 /* Icon-72.png */; };
 		B69C778E14D3C412002C9735 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = B69C778D14D3C412002C9735 /* Icon-Small-50.png */; };
@@ -176,6 +177,7 @@
 		FE9570FA14D5022F00FF1030 /* Head_Short_129x82.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570F914D5022E00FF1030 /* Head_Short_129x82.png */; };
 		FE9570FC14D502BF00FF1030 /* Background_level3_1024x768.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570FB14D502BF00FF1030 /* Background_level3_1024x768.png */; };
 		FE9570FE14D5037B00FF1030 /* Body_block_round_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */; };
+		FE95710014D519FC00FF1030 /* Menu_button_345x75.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */; };
 		FEA8836514D3F21A00EB9215 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA8836414D3F21A00EB9215 /* MenuScene.m */; };
 		FEA8836A14D3F96000EB9215 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEA8836914D3F96000EB9215 /* play.png */; };
 		FEAEA70D14D43808005B5397 /* Body_block_square_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70814D43807005B5397 /* Body_block_square_61x53.png */; };
@@ -515,6 +517,7 @@
 		FE9570F914D5022E00FF1030 /* Head_Short_129x82.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Head_Short_129x82.png; path = Resources/Head_Short_129x82.png; sourceTree = "<group>"; };
 		FE9570FB14D502BF00FF1030 /* Background_level3_1024x768.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background_level3_1024x768.png; path = Resources/Background_level3_1024x768.png; sourceTree = "<group>"; };
 		FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Body_block_round_61x53.png; path = Resources/Body_block_round_61x53.png; sourceTree = "<group>"; };
+		FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Menu_button_345x75.png; path = Resources/Menu_button_345x75.png; sourceTree = "<group>"; };
 		FEA8836314D3F21A00EB9215 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FEA8836414D3F21A00EB9215 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
 		FEA8836914D3F96000EB9215 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Resources/play.png; sourceTree = "<group>"; };
@@ -601,7 +604,7 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B6FC4C0714D5154900BF83F3 /* nevis.ttf */,
+				FE9570FF14D519FB00FF1030 /* Menu_button_345x75.png */,
 				FE9570FD14D5037B00FF1030 /* Body_block_round_61x53.png */,
 				FE9570ED14D4FFBA00FF1030 /* dragon.mp3.caf */,
 				FE9570EE14D4FFBA00FF1030 /* menu.png */,
@@ -1162,10 +1165,7 @@
 				FE9570FA14D5022F00FF1030 /* Head_Short_129x82.png in Resources */,
 				FE9570FC14D502BF00FF1030 /* Background_level3_1024x768.png in Resources */,
 				FE9570FE14D5037B00FF1030 /* Body_block_round_61x53.png in Resources */,
-				B6FC4C0214D50E0200BF83F3 /* Default@2x.png in Resources */,
-				B6FC4C0414D50E0800BF83F3 /* Default.png in Resources */,
-				B6FC4C0614D50E0D00BF83F3 /* Default-Landscape~ipad.png in Resources */,
-				B6FC4C0814D5154A00BF83F3 /* nevis.ttf in Resources */,
+				FE95710014D519FC00FF1030 /* Menu_button_345x75.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
