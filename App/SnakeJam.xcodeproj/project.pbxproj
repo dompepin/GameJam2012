@@ -168,6 +168,11 @@
 		FE9570EA14D4FCC500FF1030 /* Body_blocks_round_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570E514D4FCC500FF1030 /* Body_blocks_round_61x53.png */; };
 		FE9570EB14D4FCC500FF1030 /* Body_blocks_rounded_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570E614D4FCC500FF1030 /* Body_blocks_rounded_61x53.png */; };
 		FE9570EC14D4FCC500FF1030 /* Short_Head_129x82.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570E714D4FCC500FF1030 /* Short_Head_129x82.png */; };
+		FE9570F214D4FFBB00FF1030 /* dragon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FE9570ED14D4FFBA00FF1030 /* dragon.mp3 */; };
+		FE9570F314D4FFBB00FF1030 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570EE14D4FFBA00FF1030 /* menu.png */; };
+		FE9570F414D4FFBB00FF1030 /* space_bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570EF14D4FFBA00FF1030 /* space_bg2.png */; };
+		FE9570F514D4FFBB00FF1030 /* space3.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570F014D4FFBB00FF1030 /* space3.png */; };
+		FE9570F614D4FFBB00FF1030 /* star_bg1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE9570F114D4FFBB00FF1030 /* star_bg1.png */; };
 		FEA8836514D3F21A00EB9215 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA8836414D3F21A00EB9215 /* MenuScene.m */; };
 		FEA8836A14D3F96000EB9215 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEA8836914D3F96000EB9215 /* play.png */; };
 		FEAEA70D14D43808005B5397 /* Body blocks_61x53.png in Resources */ = {isa = PBXBuildFile; fileRef = FEAEA70814D43807005B5397 /* Body blocks_61x53.png */; };
@@ -500,6 +505,11 @@
 		FE9570E514D4FCC500FF1030 /* Body_blocks_round_61x53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Body_blocks_round_61x53.png; path = Resources/Body_blocks_round_61x53.png; sourceTree = "<group>"; };
 		FE9570E614D4FCC500FF1030 /* Body_blocks_rounded_61x53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Body_blocks_rounded_61x53.png; path = Resources/Body_blocks_rounded_61x53.png; sourceTree = "<group>"; };
 		FE9570E714D4FCC500FF1030 /* Short_Head_129x82.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Short_Head_129x82.png; path = Resources/Short_Head_129x82.png; sourceTree = "<group>"; };
+		FE9570ED14D4FFBA00FF1030 /* dragon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = dragon.mp3; path = Resources/dragon.mp3; sourceTree = "<group>"; };
+		FE9570EE14D4FFBA00FF1030 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu.png; path = Resources/menu.png; sourceTree = "<group>"; };
+		FE9570EF14D4FFBA00FF1030 /* space_bg2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = space_bg2.png; path = Resources/space_bg2.png; sourceTree = "<group>"; };
+		FE9570F014D4FFBB00FF1030 /* space3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = space3.png; path = Resources/space3.png; sourceTree = "<group>"; };
+		FE9570F114D4FFBB00FF1030 /* star_bg1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star_bg1.png; path = Resources/star_bg1.png; sourceTree = "<group>"; };
 		FEA8836314D3F21A00EB9215 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FEA8836414D3F21A00EB9215 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
 		FEA8836914D3F96000EB9215 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = Resources/play.png; sourceTree = "<group>"; };
@@ -584,6 +594,11 @@
 		B69C778614D3C412002C9735 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FE9570ED14D4FFBA00FF1030 /* dragon.mp3 */,
+				FE9570EE14D4FFBA00FF1030 /* menu.png */,
+				FE9570EF14D4FFBA00FF1030 /* space_bg2.png */,
+				FE9570F014D4FFBB00FF1030 /* space3.png */,
+				FE9570F114D4FFBB00FF1030 /* star_bg1.png */,
 				FE9570E314D4FCC400FF1030 /* Body_block_round_40x35.png */,
 				FE9570E414D4FCC400FF1030 /* Body_block_rounded_40x35.png */,
 				FE9570E514D4FCC500FF1030 /* Body_blocks_round_61x53.png */,
@@ -1138,6 +1153,11 @@
 				FE9570EA14D4FCC500FF1030 /* Body_blocks_round_61x53.png in Resources */,
 				FE9570EB14D4FCC500FF1030 /* Body_blocks_rounded_61x53.png in Resources */,
 				FE9570EC14D4FCC500FF1030 /* Short_Head_129x82.png in Resources */,
+				FE9570F214D4FFBB00FF1030 /* dragon.mp3 in Resources */,
+				FE9570F314D4FFBB00FF1030 /* menu.png in Resources */,
+				FE9570F414D4FFBB00FF1030 /* space_bg2.png in Resources */,
+				FE9570F514D4FFBB00FF1030 /* space3.png in Resources */,
+				FE9570F614D4FFBB00FF1030 /* star_bg1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
